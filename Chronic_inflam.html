@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Smart — Chronic Inflammation &amp; Repair</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d1917;
+    --panel:#122522;
+    --card:#16302b;
+    --card-hi:#1b3a33;
+    --line:#28453e;
+    --amber:#e2a53c;
+    --mint:#7fc9a3;
+    --mint-dim:#4d8571;
+    --ink:#eee7d8;
+    --ink-dim:#9db3ac;
+    --wrong:#c9634f;
+    --correct:#6fb583;
+    --radius-tab: 10px 10px 0 0;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1100px 500px at 12% -10%, #16332c 0%, transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.5;
+    min-height:100vh;
+  }
+  ::selection{background:var(--amber);color:#1a1208;}
+
+  /* ---------- header ---------- */
+  header{
+    padding:2.6rem 6vw 1.4rem;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .brand-row{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;}
+  .brand-mark{
+    width:14px;height:14px;border-radius:3px;
+    background:var(--amber);
+    box-shadow:0 0 0 3px rgba(226,165,60,.18);
+    transform:rotate(45deg);
+    flex:none;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-optical-sizing:auto;
+    font-weight:600;
+    font-size:clamp(2.1rem, 4.4vw, 3.1rem);
+    margin:0;
+    letter-spacing:-.01em;
+  }
+  header p.tagline{
+    margin:.5rem 0 0;
+    color:var(--ink-dim);
+    font-size:1.02rem;
+    max-width:46ch;
+  }
+  .specimen-tag{
+    position:absolute;
+    top:2.4rem; right:6vw;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:.4rem .9rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.72rem;
+    color:var(--mint);
+    background:var(--panel);
+  }
+  @media (max-width:760px){ .specimen-tag{display:none;} }
+
+  /* ---------- nav ---------- */
+  nav{
+    display:flex;
+    gap:.35rem;
+    padding:0 6vw;
+    margin-top:1.6rem;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  nav::-webkit-scrollbar{display:none;}
+  nav button{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:.92rem;
+    font-weight:500;
+    color:var(--ink-dim);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-bottom:none;
+    padding:.75rem 1.15rem;
+    border-radius:var(--radius-tab);
+    cursor:pointer;
+    white-space:nowrap;
+    transition:color .15s, background .15s;
+  }
+  nav button:hover{ color:var(--ink); }
+  nav button.active{
+    color:var(--amber);
+    background:var(--card);
+    border-color:var(--line);
+  }
+  main{
+    background:var(--card);
+    border-top:1px solid var(--line);
+    padding:2.6rem 6vw 5rem;
+    min-height:60vh;
+  }
+  section{ display:none; animation:fade .25s ease; }
+  section.active{ display:block; }
+  @keyframes fade{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+
+  h2.section-title{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.7rem;
+    margin:0 0 .3rem;
+  }
+  p.section-sub{
+    color:var(--ink-dim);
+    margin:0 0 2rem;
+    max-width:60ch;
+    font-size:.96rem;
+  }
+
+  /* ---------- OVERVIEW ---------- */
+  .law-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:1rem;
+  }
+  .law-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--amber);
+    border-radius:6px;
+    padding:1.1rem 1.2rem;
+  }
+  .law-card h3{
+    font-family:'Fraunces', serif;
+    font-size:1.02rem;
+    margin:0 0 .5rem;
+    color:var(--amber);
+    font-weight:600;
+  }
+  .law-card ul{margin:0; padding-left:1.1rem; color:var(--ink); font-size:.92rem;}
+  .law-card li{margin-bottom:.3rem;}
+  .law-card li:last-child{margin-bottom:0;}
+  .law-card .tiny{color:var(--ink-dim); font-size:.82rem; margin-top:.5rem;}
+
+  /* ---------- DIAGRAMS ---------- */
+  .diagram-block{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:1.4rem 1.4rem 1.6rem;
+    margin-bottom:1.8rem;
+  }
+  .diagram-block h3{
+    font-family:'Fraunces', serif;
+    font-size:1.15rem;
+    margin:0 0 1rem;
+    color:var(--ink);
+    display:flex; align-items:center; gap:.5rem;
+  }
+  .diagram-block h3::before{
+    content:"";
+    width:8px;height:8px;border-radius:50%;
+    background:var(--mint);
+    flex:none;
+  }
+
+  .flow-steps{display:flex; flex-direction:column; gap:0;}
+  .flow-step{
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:6px;
+    cursor:pointer;
+    padding:.85rem 1rem;
+    font-size:.92rem;
+    display:flex; justify-content:space-between; align-items:center;
+    transition:background .15s, border-color .15s;
+  }
+  .flow-step:hover{border-color:var(--mint-dim);}
+  .flow-step.open{background:var(--card-hi); border-color:var(--mint);}
+  .flow-step .num{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--amber);
+    margin-right:.6rem;
+    font-size:.8rem;
+  }
+  .flow-arrow{
+    text-align:center;
+    color:var(--mint-dim);
+    font-size:1rem;
+    line-height:1;
+    padding:.2rem 0;
+  }
+  .flow-detail{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+    background:var(--card-hi);
+    border-radius:0 0 6px 6px;
+    margin-top:-1px;
+    border:1px solid transparent;
+  }
+  .flow-detail.open{
+    max-height:220px;
+    border:1px solid var(--mint-dim);
+    border-top:none;
+  }
+  .flow-detail p{margin:0; padding:.85rem 1.1rem; font-size:.88rem; color:var(--ink-dim);}
+
+  .toggle-row{display:flex; gap:.5rem; margin-bottom:1.1rem;}
+  .toggle-row button{
+    flex:1;
+    padding:.6rem .9rem;
+    border-radius:6px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--ink-dim);
+    font-weight:500;
+    cursor:pointer;
+    font-size:.88rem;
+  }
+  .toggle-row button.active{
+    background:var(--mint);
+    color:#0c211b;
+    border-color:var(--mint);
+  }
+  .timeline{list-style:none; margin:0; padding:0; border-left:2px solid var(--line); padding-left:1.2rem;}
+  .timeline li{position:relative; padding-bottom:1rem; font-size:.9rem; color:var(--ink);}
+  .timeline li:last-child{padding-bottom:0;}
+  .timeline li::before{
+    content:"";
+    position:absolute; left:-1.53rem; top:.15rem;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--amber);
+  }
+  .timeline li b{color:var(--amber); display:block; font-size:.82rem; margin-bottom:.1rem; font-family:'IBM Plex Mono', monospace;}
+
+  table.compare{width:100%; border-collapse:collapse; font-size:.88rem; margin-top:1rem;}
+  table.compare th, table.compare td{border:1px solid var(--line); padding:.6rem .7rem; text-align:left; vertical-align:top;}
+  table.compare th{background:var(--card); color:var(--amber); font-weight:600;}
+  table.compare td{color:var(--ink-dim);}
+
+  .chip-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(150px,1fr)); gap:.6rem;}
+  .chip{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:.8rem .8rem;
+    cursor:pointer;
+    font-size:.85rem;
+    text-align:center;
+    transition:transform .12s, border-color .12s;
+  }
+  .chip:hover{transform:translateY(-2px); border-color:var(--amber);}
+  .chip .n{font-family:'IBM Plex Mono', monospace; color:var(--mint); font-size:.72rem; display:block; margin-bottom:.25rem;}
+  .chip-detail{
+    grid-column:1 / -1;
+    background:var(--card-hi);
+    border:1px solid var(--mint-dim);
+    border-radius:6px;
+    padding:.9rem 1.1rem;
+    font-size:.88rem;
+    color:var(--ink);
+    display:none;
+  }
+  .chip-detail.show{display:block;}
+
+  .factor-tabs{display:flex; gap:.5rem; margin-bottom:1rem;}
+  .factor-tabs button{
+    padding:.5rem 1rem; border-radius:999px; border:1px solid var(--line);
+    background:var(--card); color:var(--ink-dim); cursor:pointer; font-size:.85rem;
+  }
+  .factor-tabs button.active{background:var(--amber); color:#221703; border-color:var(--amber);}
+  .factor-list{display:none;}
+  .factor-list.show{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.6rem;}
+  .factor-item{background:var(--card); border:1px solid var(--line); border-radius:6px; padding:.7rem .9rem; font-size:.85rem; color:var(--ink-dim);}
+  .factor-item b{color:var(--ink); display:block; font-size:.85rem; margin-bottom:.2rem;}
+
+  /* ---------- MINI MAP ---------- */
+  .map-wrap{display:grid; grid-template-columns:280px 1fr; gap:1.4rem;}
+  @media (max-width:760px){ .map-wrap{grid-template-columns:1fr;} }
+  .map-list{display:flex; flex-direction:column; gap:.4rem;}
+  .map-node{
+    text-align:left;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:.7rem .9rem;
+    color:var(--ink);
+    cursor:pointer;
+    font-size:.88rem;
+    font-weight:500;
+    position:relative;
+  }
+  .map-node::after{
+    content:"→";
+    position:absolute; right:.8rem; top:50%; transform:translateY(-50%);
+    color:var(--ink-dim); font-size:.8rem;
+  }
+  .map-node.active{
+    border-color:var(--amber);
+    background:var(--card-hi);
+    color:var(--amber);
+  }
+  .map-panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:1.6rem;
+    min-height:340px;
+  }
+  .map-panel h4{
+    font-family:'Fraunces', serif;
+    color:var(--amber);
+    margin:0 0 .8rem;
+    font-size:1.2rem;
+  }
+  .map-panel p{color:var(--ink-dim); font-size:.92rem; margin:0 0 .7rem;}
+  .map-panel .placeholder{color:var(--ink-dim); font-style:italic; font-size:.9rem;}
+
+  /* ---------- FLASHCARDS ---------- */
+  .fc-toolbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem; flex-wrap:wrap; gap:.6rem;}
+  .fc-count{font-family:'IBM Plex Mono', monospace; color:var(--mint); font-size:.82rem;}
+  .fc-toolbar button{
+    background:var(--card); border:1px solid var(--line); color:var(--ink-dim);
+    padding:.5rem .9rem; border-radius:6px; cursor:pointer; font-size:.82rem;
+  }
+  .fc-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:1rem;}
+  .fc{
+    perspective:1200px;
+    height:170px;
+    cursor:pointer;
+  }
+  .fc-inner{
+    position:relative; width:100%; height:100%;
+    transition:transform .5s;
+    transform-style:preserve-3d;
+  }
+  .fc.flipped .fc-inner{ transform:rotateY(180deg); }
+  .fc-face{
+    position:absolute; inset:0;
+    backface-visibility:hidden;
+    border-radius:8px;
+    border:1px solid var(--line);
+    padding:1rem;
+    display:flex; flex-direction:column;
+    font-size:.85rem;
+  }
+  .fc-front{background:var(--panel); color:var(--ink);}
+  .fc-back{background:var(--card-hi); color:var(--mint); transform:rotateY(180deg); border-color:var(--mint-dim);}
+  .fc-face .fc-label{font-family:'IBM Plex Mono', monospace; font-size:.65rem; color:var(--ink-dim); margin-bottom:.5rem; letter-spacing:.03em;}
+  .fc-face .fc-text{overflow-y:auto; flex:1;}
+
+  /* ---------- QUIZ ---------- */
+  .quiz-toolbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem; flex-wrap:wrap; gap:.7rem;}
+  .quiz-score{
+    font-family:'IBM Plex Mono', monospace;
+    color:var(--amber);
+    font-size:.88rem;
+    border:1px solid var(--line);
+    padding:.4rem .8rem;
+    border-radius:6px;
+    background:var(--panel);
+  }
+  .quiz-toolbar button{
+    background:var(--amber); color:#221703; border:none;
+    padding:.55rem 1rem; border-radius:6px; cursor:pointer; font-weight:600; font-size:.85rem;
+  }
+  .q-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:1.1rem 1.2rem 1.2rem;
+    margin-bottom:1rem;
+  }
+  .q-head{display:flex; gap:.6rem; margin-bottom:.8rem;}
+  .q-num{font-family:'IBM Plex Mono', monospace; color:var(--amber); font-size:.85rem; flex:none;}
+  .q-text{font-size:.95rem; color:var(--ink);}
+  .q-options{display:flex; flex-direction:column; gap:.45rem;}
+  .q-opt{
+    text-align:left;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:.6rem .8rem;
+    color:var(--ink-dim);
+    cursor:pointer;
+    font-size:.86rem;
+  }
+  .q-opt:hover{border-color:var(--mint-dim);}
+  .q-opt.correct{background:rgba(111,181,131,.15); border-color:var(--correct); color:var(--correct);}
+  .q-opt.wrong{background:rgba(201,99,79,.15); border-color:var(--wrong); color:var(--wrong);}
+  .q-opt[disabled]{cursor:default;}
+
+  footer{
+    padding:2rem 6vw 3rem;
+    color:var(--ink-dim);
+    font-size:.8rem;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:.4rem;
+    border-top:1px solid var(--line);
+  }
+  footer span.mark{color:var(--amber);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-row">
+    <span class="brand-mark"></span>
+    <h1>Study Smart</h1>
+  </div>
+  <p class="tagline">A compact revision kit for Chronic Inflammation &amp; Repair — the rules that matter, without the lecture.</p>
+  <span class="specimen-tag">PATHOLOGY · REVISION SET 04</span>
+</header>
+
+<nav id="tabnav">
+  <button data-tab="overview" class="active">Overview</button>
+  <button data-tab="diagrams">Diagrams</button>
+  <button data-tab="minimap">Mini Map</button>
+  <button data-tab="flashcards">Flash Cards</button>
+  <button data-tab="quiz">Quiz Bank</button>
+</nav>
+
+<main>
+
+  <!-- ============ 1. OVERVIEW ============ -->
+  <section id="overview" class="active">
+    <h2 class="section-title">Overview</h2>
+    <p class="section-sub">The essential rules only — everything you need before you touch the diagrams or the quiz.</p>
+    <div class="law-grid" id="overviewGrid"></div>
+  </section>
+
+  <!-- ============ 2. INTERACTIVE DIAGRAMS ============ -->
+  <section id="diagrams">
+    <h2 class="section-title">Interactive Diagrams</h2>
+    <p class="section-sub">Click through each figure — steps, comparisons, and complications all respond to your clicks.</p>
+
+    <div class="diagram-block">
+      <h3>Granuloma formation — click each step</h3>
+      <div class="flow-steps" id="flowSteps"></div>
+    </div>
+
+    <div class="diagram-block">
+      <h3>Primary vs. secondary union — toggle the timeline</h3>
+      <div class="toggle-row" id="unionToggle">
+        <button data-union="primary" class="active">First intention</button>
+        <button data-union="secondary">Second intention</button>
+      </div>
+      <ul class="timeline" id="unionTimeline"></ul>
+      <table class="compare">
+        <thead><tr><th>Feature</th><th>First intention</th><th>Second intention</th></tr></thead>
+        <tbody id="compareBody"></tbody>
+      </table>
+    </div>
+
+    <div class="diagram-block">
+      <h3>Complications of wound healing — click a tile</h3>
+      <div class="chip-grid" id="complicationGrid"></div>
+    </div>
+
+    <div class="diagram-block">
+      <h3>Factors that delay healing — local vs. systemic</h3>
+      <div class="factor-tabs" id="factorTabs">
+        <button data-factor="local" class="active">Local factors</button>
+        <button data-factor="systemic">Systemic factors</button>
+      </div>
+      <div class="factor-list show" id="factorLocal"></div>
+      <div class="factor-list" id="factorSystemic"></div>
+    </div>
+  </section>
+
+  <!-- ============ 3. MINI MAP ============ -->
+  <section id="minimap">
+    <h2 class="section-title">Mini Map</h2>
+    <p class="section-sub">Click a topic on the left — its summary opens here on the right.</p>
+    <div class="map-wrap">
+      <div class="map-list" id="mapList"></div>
+      <div class="map-panel" id="mapPanel">
+        <p class="placeholder">Select a topic to open its summary.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. FLASH CARDS ============ -->
+  <section id="flashcards">
+    <h2 class="section-title">Flash Cards</h2>
+    <p class="section-sub">Pick a difficulty level, then tap a card to flip it.</p>
+    <div class="factor-tabs" id="fcLevelTabs">
+      <button data-level="easy" class="active">Level 1 · Easy</button>
+      <button data-level="medium">Level 2 · Medium</button>
+      <button data-level="hard">Level 3 · Hard</button>
+    </div>
+    <div class="fc-toolbar">
+      <span class="fc-count" id="fcCount"></span>
+      <button id="shuffleFc">Shuffle order</button>
+    </div>
+    <div class="fc-grid" id="fcGrid"></div>
+  </section>
+
+  <!-- ============ 5. QUIZ BANK ============ -->
+  <section id="quiz">
+    <h2 class="section-title">Quiz Bank</h2>
+    <p class="section-sub">Pick a difficulty level — answer options are reshuffled every time the bank loads.</p>
+    <div class="factor-tabs" id="quizLevelTabs">
+      <button data-level="easy" class="active">Level 1 · Easy</button>
+      <button data-level="medium">Level 2 · Medium</button>
+      <button data-level="hard">Level 3 · Hard</button>
+    </div>
+    <div class="quiz-toolbar">
+      <span class="quiz-score" id="quizScore">Score: 0 / 0</span>
+      <button id="reshuffleQuiz">Reshuffle quiz</button>
+    </div>
+    <div id="quizList"></div>
+  </section>
+
+</main>
+
+<footer>
+  <span>© <span class="mark">Anmar Taha</span> — All rights reserved.</span>
+  <span>Study Smart · Chronic Inflammation &amp; Repair</span>
+</footer>
+
+<script>
+/* ===================== TAB SWITCHING ===================== */
+const tabButtons = document.querySelectorAll('#tabnav button');
+const sections = document.querySelectorAll('main > section');
+tabButtons.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabButtons.forEach(b=>b.classList.remove('active'));
+    sections.forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ===================== 1. OVERVIEW DATA ===================== */
+const overviewData = [
+  {t:"Definition", items:[
+    "Chronic inflammation = inflammation of prolonged duration (weeks–months–years).",
+    "Active inflammation, tissue injury, and healing all occur at the same time."
+  ]},
+  {t:"3 Ways it starts", items:[
+    "After acute inflammation (extensive damage / persistent bacteria) — e.g. osteomyelitis.",
+    "Recurrent bouts of acute inflammation — e.g. chronic pyelonephritis.",
+    "Chronic from the outset (de novo) — e.g. TB, or autoimmunity — e.g. RA, SLE."
+  ]},
+  {t:"3 Hallmarks", items:[
+    "Mononuclear cell infiltration (macrophages, lymphocytes, plasma cells).",
+    "Tissue destruction by the persistent agent or by inflammatory cells.",
+    "Healing attempts by fibrosis — angiogenesis + fibroblast proliferation."
+  ]},
+  {t:"Key cell: the macrophage", items:[
+    "Most important cell in chronic inflammation.",
+    "Releases protease, elastase, collagenase, ROS, IL-1/IL-8/TNF-α, NO."
+  ]},
+  {t:"Plasma cells", items:[
+    "Larger than lymphocytes, abundant cytoplasm, eccentric nucleus.",
+    "↑ in prolonged infection, hypersensitivity, and multiple myeloma."
+  ]},
+  {t:"2 Types of chronic inflammation", items:[
+    "Non-specific — granulation tissue + fibrosis (e.g. chronic ulcer, lung abscess).",
+    "Granulomatous — aggregates of activated macrophages (e.g. TB, leprosy, sarcoidosis)."
+  ]},
+  {t:"Granuloma — definition", items:[
+    "Circumscribed collection of epithelioid cells rimmed by lymphocytes.",
+    "Formation = Type IV (delayed) hypersensitivity reaction."
+  ]},
+  {t:"Healing = 2 processes", items:[
+    "Regeneration — parenchymal cell proliferation, full restoration.",
+    "Repair — connective tissue proliferation → fibrosis + scarring."
+  ]},
+  {t:"Repair needs", items:[
+    "Granulation tissue formation.",
+    "Wound contraction (myofibroblasts)."
+  ]},
+  {t:"Primary vs. secondary union", items:[
+    "Primary: clean, sutured, minimal loss → fast, neat scar.",
+    "Secondary: open, large defect → slow healing, wound contraction, bigger scar."
+  ]},
+  {t:"Complications to remember", items:[
+    "Infection, implantation cyst, pigmentation, deficient scar.",
+    "Incisional hernia, keloid/hypertrophic scar, excess contraction, neoplasia (Marjolin's ulcer)."
+  ]},
+  {t:"Factors that delay healing", items:[
+    "Local: infection, poor blood supply, foreign bodies, movement, radiation.",
+    "Systemic: old age, malnutrition, steroids, diabetes, blood disorders."
+  ]},
+];
+const ovGrid = document.getElementById('overviewGrid');
+overviewData.forEach(c=>{
+  const div = document.createElement('div');
+  div.className='law-card';
+  div.innerHTML = `<h3>${c.t}</h3><ul>${c.items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+  ovGrid.appendChild(div);
+});
+
+/* ===================== 2. DIAGRAMS ===================== */
+// Granuloma flow
+const flowData = [
+  {title:"Cell injury", detail:"An injurious agent (e.g. M. tuberculosis, talc) damages tissue and the body fails to fully digest it."},
+  {title:"Weak acute response → engulfment by macrophages", detail:"A weak acute inflammatory response occurs; macrophages engulf the agent but it persists."},
+  {title:"Persistence of the injurious agent", detail:"The agent survives inside macrophages, splitting the response into two arms."},
+  {title:"T cell–mediated immune response", detail:"CD4+ T cells activate, releasing IL-1, IL-2, IFN-γ and TNF-α, plus monocyte chemotactic factor."},
+  {title:"Poorly digestible agent", detail:"In parallel, the indigestible material keeps macrophages accumulating at the site."},
+  {title:"Accumulation & activation of macrophages", detail:"Increased recruitment from the circulation, local proliferation, and T-cell proliferation; macrophages are activated by IFN-γ."},
+  {title:"Transformation & cytokine secretion", detail:"Macrophages transform into epithelioid cells and giant cells, and secrete fibroblast-proliferating cytokines (TGF-β, PDGF)."},
+  {title:"Granuloma", detail:"The final lesion: a core of epithelioid cells and giant cells rimmed by lymphocytes, with surrounding fibrosis."},
+];
+const flowWrap = document.getElementById('flowSteps');
+flowData.forEach((s,i)=>{
+  const step = document.createElement('div');
+  step.className='flow-step';
+  step.innerHTML = `<span><span class="num">${String(i+1).padStart(2,'0')}</span>${s.title}</span><span>+</span>`;
+  const detail = document.createElement('div');
+  detail.className='flow-detail';
+  detail.innerHTML = `<p>${s.detail}</p>`;
+  step.addEventListener('click', ()=>{
+    const wasOpen = step.classList.contains('open');
+    document.querySelectorAll('.flow-step').forEach(f=>f.classList.remove('open'));
+    document.querySelectorAll('.flow-detail').forEach(f=>f.classList.remove('open'));
+    if(!wasOpen){ step.classList.add('open'); detail.classList.add('open'); }
+  });
+  flowWrap.appendChild(step);
+  flowWrap.appendChild(detail);
+  if(i < flowData.length-1){
+    const arrow = document.createElement('div');
+    arrow.className='flow-arrow';
+    arrow.textContent='↓';
+    flowWrap.appendChild(arrow);
+  }
+});
+
+// Primary vs secondary union timelines
+const unionTimelines = {
+  primary:[
+    {t:"Immediately", d:"Initial hemorrhage — blood clots at the site of injury."},
+    {t:"Within 24 h", d:"Acute inflammatory response — plasma, neutrophils, some monocytes."},
+    {t:"48 hours", d:"Epithelial spurs from both cut margins meet; wound covered by epithelium."},
+    {t:"Day 3", d:"Fibroblasts invade the wound area — start of organization."},
+    {t:"Day 5", d:"New collagen fibrils form; multilayered new epidermis is complete."},
+    {t:"4 weeks", d:"Scar tissue: scanty cells/vessels, few inflammatory cells, epithelialized surface."},
+  ],
+  secondary:[
+    {t:"Immediately", d:"Initial hemorrhage, larger tissue defect to bridge."},
+    {t:"Early", d:"Inflammatory phase, then epithelial spurs migrate from both margins."},
+    {t:"Ongoing", d:"Epithelial cells do not fully cover the surface until granulation tissue fills the gap from the base."},
+    {t:"Main bulk", d:"Granulation tissue forms by fibroblast proliferation + neovascularization — deep red, granular, fragile."},
+    {t:"Throughout", d:"Wound contraction by myofibroblasts — shrinks to 1/3–1/4 of original size."},
+    {t:"Maturation", d:"Scar becomes pale and white as collagen increases and vascularity decreases."},
+  ]
+};
+const compareRows = [
+  ["Wound type","Clean, uninfected, incised","Open, large defect, at times infected"],
+  ["Tissue loss","Minimal","Extensive"],
+  ["Edges","Approximated by sutures","Left open, not approximated"],
+  ["Wound contraction","Not a feature","Important feature (myofibroblasts)"],
+  ["Speed & scar","Rapid healing, neat scar","Slow healing, larger scar"],
+];
+function renderUnion(kind){
+  const tl = document.getElementById('unionTimeline');
+  tl.innerHTML = unionTimelines[kind].map(x=>`<li><b>${x.t}</b>${x.d}</li>`).join('');
+}
+document.getElementById('unionToggle').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#unionToggle button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  renderUnion(b.dataset.union);
+});
+renderUnion('primary');
+document.getElementById('compareBody').innerHTML = compareRows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+
+// Complications
+const complications = [
+  {n:"1", t:"Infection", d:"The wound may become infected due to entry of bacteria."},
+  {n:"2", t:"Implantation cyst", d:"Persistence of epithelial cells within the wound forms an implantation epidermoid cyst."},
+  {n:"3", t:"Pigmentation", d:"Healed wounds may show a rust-like color due to staining with hemosiderin."},
+  {n:"4", t:"Deficient scar", d:"Occurs due to inadequate formation of granulation tissue."},
+  {n:"5", t:"Incisional hernia", d:"A weak scar, especially after laparotomy, may burst open (dehiscence) or form a hernia."},
+  {n:"6", t:"Keloid / hypertrophic scar", d:"Excess collagen forms a keloid (tumor-like, beyond wound borders) — more common in Blacks. Hypertrophic scars stay within the original wound borders."},
+  {n:"7", t:"Excessive contraction", d:"Exaggerated wound contraction causes contractures, e.g. Dupuytren's, plantar contracture, Peyronie's disease."},
+  {n:"8", t:"Neoplasia", d:"Rarely, a scar becomes the site of carcinoma later, e.g. squamous cell carcinoma in a Marjolin's ulcer (burn scar)."},
+];
+const compGrid = document.getElementById('complicationGrid');
+const detailBox = document.createElement('div');
+detailBox.className='chip-detail';
+complications.forEach(c=>{
+  const chip = document.createElement('div');
+  chip.className='chip';
+  chip.innerHTML = `<span class="n">0${c.n}</span>${c.t}`;
+  chip.addEventListener('click', ()=>{
+    detailBox.innerHTML = `<b style="color:var(--amber)">${c.t}</b><br>${c.d}`;
+    detailBox.classList.add('show');
+    if(detailBox.parentElement !== compGrid){ compGrid.appendChild(detailBox); }
+    else { compGrid.appendChild(detailBox); }
+  });
+  compGrid.appendChild(chip);
+});
+
+// Local / systemic factors
+const factorsLocal = [
+  {t:"Infection", d:"The most important local factor — delays the whole healing process."},
+  {t:"Poor blood supply", d:"E.g. varicose ulcers of the leg heal slowly versus the richly-vascularized face."},
+  {t:"Foreign bodies", d:"Including sutures — interfere with healing, cause inflammation and infection."},
+  {t:"Movement", d:"Movement at the wound site delays healing."},
+  {t:"Ionizing radiation", d:"Delays granulation tissue formation."},
+];
+const factorsSystemic = [
+  {t:"Age", d:"Healing is rapid in the young; slower in aged/debilitated patients (poorer local blood supply)."},
+  {t:"Nutrition", d:"Deficiency of protein, vitamin C (scurvy), vitamin A, or zinc delays healing."},
+  {t:"Systemic infection", d:"Delays wound healing generally."},
+  {t:"Glucocorticoids", d:"Their anti-inflammatory effect slows healing."},
+  {t:"Uncontrolled diabetes", d:"More prone to infection, hence delayed healing."},
+  {t:"Hematologic abnormalities", d:"Defective neutrophil chemotaxis/phagocytosis, neutropenia, and bleeding disorders slow healing."},
+];
+document.getElementById('factorLocal').innerHTML = factorsLocal.map(f=>`<div class="factor-item"><b>${f.t}</b>${f.d}</div>`).join('');
+document.getElementById('factorSystemic').innerHTML = factorsSystemic.map(f=>`<div class="factor-item"><b>${f.t}</b>${f.d}</div>`).join('');
+document.getElementById('factorTabs').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#factorTabs button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById('factorLocal').classList.toggle('show', b.dataset.factor==='local');
+  document.getElementById('factorSystemic').classList.toggle('show', b.dataset.factor==='systemic');
+});
+
+/* ===================== 3. MINI MAP ===================== */
+const mapData = [
+  {t:"Chronic inflammation — definition", body:"Inflammation of prolonged duration (weeks to months to years) in which active inflammation, tissue injury, and healing occur at the same time."},
+  {t:"How chronic inflammation starts", body:"(1) Following acute inflammation, when tissue destruction is extensive or bacteria persist in small numbers — e.g. osteomyelitis, pneumonia. (2) Recurrent bouts of acute inflammation, e.g. recurrent UTI → chronic pyelonephritis, repeated acute cholecystitis → chronic cholecystitis. (3) Starting de novo with low-pathogenicity organisms chronic from the beginning, e.g. M. tuberculosis, or via autoimmunity, e.g. rheumatoid arthritis, SLE."},
+  {t:"Hallmarks of chronic inflammation", body:"Infiltration with mononuclear cells (macrophages, lymphocytes, plasma cells); tissue destruction from the persistent agent or the inflammatory cells themselves; and attempts at healing by fibrosis, achieved through angiogenesis and fibroblast proliferation."},
+  {t:"Macrophages & tissue destruction", body:"Macrophages are the most important cells in chronic inflammation. When activated they release protease, elastase, collagenase, lipase, reactive oxygen radicals, cytokines (IL-1, IL-8, TNF-α), nitric oxide, and angiogenesis growth factor — driving tissue destruction and necrosis."},
+  {t:"Plasma cells", body:"Larger than lymphocytes, with more abundant cytoplasm and an eccentric nucleus. Their numbers rise with prolonged infection carrying an immune response (syphilis, RA, TB), hypersensitivity states, and multiple myeloma."},
+  {t:"Foreign body giant cells", body:"Contain up to 100 nuclei, uniform in size and shape, scattered randomly throughout the cytoplasm. Seen in chronic infective granulomas, leprosy, and tuberculosis."},
+  {t:"Chronic non-specific inflammation", body:"When the irritant produces a non-specific chronic inflammatory reaction with granulation tissue formation and healing by fibrosis — e.g. chronic osteomyelitis, chronic ulcer, lung abscess."},
+  {t:"Chronic granulomatous inflammation", body:"A distinctive pattern with aggregates of activated macrophages and scattered lymphocytes, forming granulomas — e.g. tuberculosis, leprosy, syphilis, sarcoidosis."},
+  {t:"What is a granuloma?", body:"A circumscribed, tiny lesion made mainly of modified macrophages called epithelioid cells, rimmed at the periphery by lymphoid cells. Formation of a granuloma is a Type IV (delayed) hypersensitivity reaction."},
+  {t:"Three settings for granuloma formation", body:"(1) Persistent T-cell responses to microbes such as M. tuberculosis, T. pallidum, or fungi, where T-cell cytokines drive chronic macrophage activation, e.g. TB. (2) Immune-mediated inflammatory diseases, e.g. Crohn disease. (3) Response to relatively inert foreign bodies (suture, splinter) forming foreign body granulomas, or diseases of unknown etiology such as sarcoidosis."},
+  {t:"Healing — the big picture", body:"Healing is the body's response to injury in an attempt to restore normal structure and function. It involves two processes: regeneration (proliferation of parenchymal cells, usually complete restoration) and repair (proliferation of connective tissue, producing fibrosis and scarring). Both can occur together."},
+  {t:"Repair: two processes", body:"Repair is the replacement of injured tissue by fibrous tissue, and involves granulation tissue formation and contraction of wounds."},
+  {t:"Granulation tissue", body:"Named for its slightly granular, pink appearance. Each granule corresponds to a proliferating small blood vessel, slightly lifted by a thin covering of fibroblasts and young collagen."},
+  {t:"Three phases of granulation tissue", body:"(1) Phase of inflammation — blood clots, acute inflammatory exudate within 24 hours. (2) Phase of clearance — proteolytic enzymes from neutrophils, autolytic enzymes from dead cells, and macrophage phagocytosis clear necrotic debris and RBCs. (3) Phase of ingrowth of granulation tissue — angiogenesis/neovascularization plus fibrogenesis."},
+  {t:"Healing by first intention", body:"For wounds that are clean and uninfected, surgically incised, without much loss of cells/tissue, with edges approximated by sutures. Sequence: initial hemorrhage → acute inflammatory response → epithelial changes (covered by epithelium in 48 h; multilayered epidermis by day 5) → organization (fibroblasts by day 3, new collagen by day 5, mature scar by 4 weeks)."},
+  {t:"Healing by second intention", body:"For wounds that are open with a large tissue defect, at times infected, with extensive loss of cells/tissue, not approximated by sutures. Healing proceeds from the base upward and from the margins inward. It is slower and leaves a larger, at times uglier, scar than primary union. Granulation tissue provides the main bulk of healing, and wound contraction (via myofibroblasts) shrinks the wound to one-third to one-fourth of its original size."},
+  {t:"Complications of wound healing", body:"Infection; implantation (epidermal) cyst; pigmentation (hemosiderin staining); deficient scar formation; incisional hernia / wound dehiscence; hypertrophied scars and keloid formation (more common in Blacks); excessive contraction (e.g. Dupuytren's, plantar, Peyronie's); and rarely neoplasia, e.g. squamous cell carcinoma in a Marjolin's ulcer."},
+  {t:"Local factors delaying healing", body:"Infection (the most important local factor), poor blood supply (e.g. varicose ulcers vs. the richly vascularized face), foreign bodies including sutures, movement at the wound, and exposure to ionizing radiation."},
+  {t:"Systemic factors delaying healing", body:"Old age, malnutrition (deficiency of protein, vitamin C, vitamin A, zinc), systemic infection, glucocorticoid administration, uncontrolled diabetes (prone to infection), and hematologic abnormalities (defective neutrophil function, neutropenia, bleeding disorders)."},
+];
+const mapList = document.getElementById('mapList');
+const mapPanel = document.getElementById('mapPanel');
+mapData.forEach((m,i)=>{
+  const btn = document.createElement('button');
+  btn.className='map-node';
+  btn.textContent = m.t;
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.map-node').forEach(n=>n.classList.remove('active'));
+    btn.classList.add('active');
+    mapPanel.innerHTML = `<h4>${m.t}</h4><p>${m.body}</p>`;
+  });
+  mapList.appendChild(btn);
+});
+
+/* ===================== 4. FLASHCARDS ===================== */
+/* Three difficulty tiers: easy (60 cards), medium (50 cards), hard (40 cards). */
+const flashcardsByLevel = {
+  easy: [["Define chronic inflammation.", "Inflammation of prolonged duration (weeks to months to years) in which active inflammation, tissue injury and healing occur at the same time."], ["What 3 processes occur together in chronic inflammation?", "Active inflammation, tissue injury, and healing occur simultaneously."], ["Name the 3 ways chronic inflammation may arise.", "(1) Following acute inflammation, (2) recurrent bouts of acute inflammation, (3) chronic from the beginning (de novo) — including autoimmunity."], ["Give an example of chronic inflammation following acute inflammation.", "Osteomyelitis or pneumonia, when tissue destruction is extensive or bacteria persist in small numbers at the site."], ["Recurrent urinary tract infection can lead to which chronic disease?", "Chronic pyelonephritis."], ["Repeated attacks of acute cholecystitis lead to which chronic disease?", "Chronic cholecystitis."], ["Which organism is the classic example of chronic inflammation starting de novo?", "Mycobacterium tuberculosis (an organism of low pathogenicity)."], ["Name two autoimmune diseases that are chronic from the outset.", "Rheumatoid arthritis and systemic lupus erythematosus."], ["List the 3 characteristic features of chronic inflammation.", "Infiltration with mononuclear cells, tissue destruction, and attempts at healing by fibrosis."], ["Which mononuclear cells infiltrate chronic inflammatory lesions?", "Macrophages, lymphocytes, and plasma cells."], ["Which single cell type is the most important in chronic inflammation?", "The macrophage."], ["How does a plasma cell compare in size to a lymphocyte?", "A plasma cell is larger than a lymphocyte."], ["Where is the nucleus located in a plasma cell?", "Eccentrically (off-center), with more abundant surrounding cytoplasm."], ["Name 3 conditions where plasma cell numbers increase.", "Prolonged infection with immunological response (e.g. syphilis, RA, TB), hypersensitivity states, and multiple myeloma."], ["What causes tissue destruction in chronic inflammation?", "Substances released by activated macrophages, and the persistent offending agent itself."], ["Name 3 substances released by activated macrophages that destroy tissue.", "Protease, elastase, and collagenase (also lipase, reactive oxygen radicals, cytokines, nitric oxide)."], ["What forms as the attempt at healing in chronic inflammation?", "Granulation tissue, via proliferation of small blood vessels (angiogenesis) and fibroblasts, eventually maturing to fibrosis."], ["Up to how many nuclei can a foreign body giant cell contain?", "Up to 100 nuclei."], ["How are the nuclei arranged in a foreign body giant cell?", "Scattered randomly throughout the cytoplasm."], ["Name 3 conditions in which foreign body giant cells are seen.", "Chronic infective granulomas, leprosy, and tuberculosis."], ["What are the 2 conventional types of chronic inflammation?", "Chronic non-specific inflammation and chronic granulomatous inflammation."], ["Give 3 examples of chronic non-specific inflammation.", "Chronic osteomyelitis, chronic ulcer, and lung abscess."], ["Define chronic granulomatous inflammation.", "A distinctive pattern of chronic inflammation characterized by aggregates of activated macrophages with scattered lymphocytes."], ["Name 4 diseases that cause chronic granulomatous inflammation.", "Tuberculosis, leprosy, syphilis, and sarcoidosis."], ["Define a granuloma.", "A circumscribed, tiny lesion composed mainly of modified macrophages (epithelioid cells), rimmed at the periphery by lymphoid cells."], ["What are the modified macrophages of a granuloma called?", "Epithelioid cells."], ["Which cells rim the periphery of a granuloma?", "Lymphoid cells."], ["Granuloma formation is an example of which type of hypersensitivity reaction?", "Type IV (granulomatous) hypersensitivity."], ["Name the 3 settings under which granulomas can form.", "Persistent T-cell response to microbes, immune-mediated inflammatory disease, and reaction to relatively inert foreign bodies / unknown etiology."], ["Which cytokine activates macrophages so they transform into epithelioid cells?", "IFN-γ (interferon-gamma)."], ["Define healing.", "The body's response to injury in an attempt to restore normal structure and function."], ["What are the 2 processes involved in healing?", "Regeneration and repair."], ["Define regeneration.", "Healing by proliferation of parenchymal cells, usually resulting in complete restoration of the original tissue."], ["Define repair.", "Healing by proliferation of connective tissue, resulting in fibrosis and scarring."], ["What 2 processes are involved in repair?", "Granulation tissue formation and contraction of wounds."], ["Why is granulation tissue described as 'granular'?", "Because each granule corresponds to a proliferating new small blood vessel lifted by a thin covering of fibroblasts and young collagen."], ["Name the 3 phases of granulation tissue formation.", "Phase of inflammation, phase of clearance, and phase of ingrowth of granulation tissue."], ["What happens during the phase of inflammation of granulation tissue formation?", "Blood clots at the injury site, and an acute inflammatory response occurs with exudation of plasma, neutrophils, and some monocytes within 24 hours."], ["What clears necrotic debris in the phase of clearance?", "Proteolytic enzymes from neutrophils, autolytic enzymes from dead tissue cells, and phagocytic macrophages."], ["What 2 processes make up the phase of ingrowth of granulation tissue?", "Angiogenesis (neovascularization) and fibrogenesis."], ["What are the 2 ways a skin wound can heal?", "Healing by first intention (primary union) and healing by second intention (secondary union)."], ["List the characteristics of healing by first intention.", "Clean and uninfected, surgically incised, minimal loss of cells/tissue, and edges approximated by surgical sutures."], ["By what time is a well-approximated wound covered by epithelium in primary union?", "Within 48 hours."], ["By what day does a multilayered new epidermis form in primary union?", "By the 5th day."], ["By when is mature scar tissue typically formed in primary union?", "In about 4 weeks."], ["List the characteristics of healing by second intention.", "Open wound with a large tissue defect (sometimes infected), extensive loss of cells and tissue, and edges not approximated by sutures."], ["In which direction does healing progress in secondary union?", "From the base upward and from the margins inward."], ["How does the scar of second intention healing compare with first intention?", "Second intention healing is slower and results in a larger, at times uglier, scar compared to the rapid healing and neat scar of first intention."], ["What provides the main bulk of secondary (second intention) healing?", "Granulation tissue."], ["What causes wound contraction in secondary healing?", "Myofibroblasts present in the granulation tissue."], ["To what fraction of its original size does a wound typically contract?", "One-third to one-fourth of its original size."], ["Name the 8 complications of wound healing.", "Infection, implantation (epidermal) cyst, pigmentation, deficient scar formation, incisional hernia, hypertrophied scar/keloid, excessive contraction, and neoplasia."], ["What causes the rust-like pigmentation sometimes seen in healed wounds?", "Staining with hemosiderin."], ["What is the key difference between a hypertrophic scar and a keloid?", "Hypertrophic scars are confined to the borders of the original wound, while keloids show a tumor-like projection of connective tissue beyond it."], ["In which population is keloid formation more common?", "Blacks."], ["Give 3 examples of contractures caused by excessive wound contraction.", "Dupuytren's (palmar) contracture, plantar contracture, and Peyronie's disease."], ["What is a Marjolin's ulcer?", "A scar (often following burns) that becomes the site of later development of squamous cell carcinoma."], ["Name the local factors that delay wound healing.", "Infection, poor blood supply, foreign bodies (including sutures), movement, and ionizing radiation."], ["Name the systemic factors that delay wound healing.", "Old age, poor nutrition, systemic infection, glucocorticoid use, uncontrolled diabetes, and hematologic abnormalities."], ["Deficiency of which vitamin (causing scurvy) delays wound healing?", "Vitamin C."]],
+  medium: [["Why might chronic inflammation follow an episode of acute inflammation instead of resolving normally?", "If tissue destruction is extensive, or if bacteria survive and persist in small numbers at the site, the acute process fails to resolve and continues as chronic inflammation, as in osteomyelitis or pneumonia."], ["Explain why recurrent attacks of acute urinary tract infection eventually produce chronic pyelonephritis.", "Each bout of acute inflammation causes further injury and repair; repeated cycles of acute inflammation culminate in chronicity of the process, leading to chronic pyelonephritis."], ["Why is tuberculosis considered chronic 'de novo' rather than a sequel to acute inflammation?", "Infection with an organism of low pathogenicity such as M. tuberculosis is chronic from the very beginning — there is no preceding resolved or unresolved acute phase."], ["Contrast the 3 mechanisms of chronic inflammation with one example each.", "(1) Following acute inflammation — osteomyelitis/pneumonia; (2) recurrent acute attacks — chronic pyelonephritis/cholecystitis; (3) chronic from onset — TB (infective) or rheumatoid arthritis/SLE (autoimmune)."], ["Why are macrophages considered central to both destruction and repair in chronic inflammation?", "Activated macrophages release enzymes, ROS, cytokines and nitric oxide that destroy tissue, while the same activated macrophages also secrete growth factors that drive angiogenesis and fibroblast proliferation for healing."], ["How can plasma cell numbers point to an underlying diagnosis?", "Increased plasma cells suggest prolonged infection with an immunological response (e.g. syphilis, RA, TB), a hypersensitivity state, or multiple myeloma."], ["Group the tissue-destructive substances released by macrophages by function.", "Enzymes: protease, elastase, collagenase, lipase. Reactive species: reactive oxygen radicals, nitric oxide. Cytokines/growth factors: IL-1, IL-8, TNF-α, angiogenesis growth factor."], ["Why does chronic inflammation typically show fibrosis while acute inflammation usually does not?", "Chronic inflammation involves prolonged tissue injury alongside simultaneous healing, so proliferation of blood vessels and fibroblasts (granulation tissue) has time to mature into collagen-rich fibrous scar."], ["Compare chronic non-specific inflammation with chronic granulomatous inflammation.", "Non-specific: a generic chronic inflammatory reaction with granulation tissue and healing by fibrosis (e.g. chronic ulcer, lung abscess). Granulomatous: a distinctive pattern with aggregates of activated (epithelioid) macrophages and scattered lymphocytes forming true granulomas (e.g. TB, leprosy)."], ["Explain the origin of the word 'granuloma'.", "'Granul-' refers to a circumscribed, granule-like lesion, and '-oma' — though usually denoting true tumors — here indicates a localized inflammatory mass or collection of macrophages, not neoplasia."], ["Why is granuloma formation classified as a Type IV hypersensitivity reaction?", "Because it results from a persistent, cell-mediated (T-cell driven) immune response rather than antibody- or immune-complex-mediated mechanisms — the defining feature of delayed-type (Type IV) hypersensitivity."], ["Contrast the 3 settings of granuloma formation with examples.", "Persistent T-cell response to microbes (TB, syphilis, fungi); immune-mediated inflammatory disease (Crohn disease); and reaction to relatively inert material or unknown cause (foreign-body suture/splinter granulomas, sarcoidosis)."], ["Trace how CD4+ T-cell activation leads to granuloma formation.", "Persistence of an injurious agent triggers a T cell–mediated immune response; activated CD4+ T cells release lymphokines (IL-1, IL-2, IFN-γ, TNF-α) and monocyte chemotactic factor, which recruit and activate macrophages that ultimately form the granuloma."], ["Distinguish the roles of IFN-γ and TGF-β/PDGF in the granuloma pathway.", "IFN-γ activates macrophages, driving their transformation into epithelioid cells and giant cells; TGF-β and PDGF are fibroblast-proliferating cytokines secreted by these activated macrophages that promote fibrosis around the granuloma."], ["Why can extensive tissue damage not be repaired by regeneration alone?", "Regeneration depends on proliferation of surviving parenchymal cells; when damage or the supporting framework is too extensive, connective tissue (repair) must instead fill the defect, resulting in fibrosis and scarring."], ["Why can regeneration and repair occur simultaneously in the same healing tissue?", "Because different areas or components of an injured tissue may be handled differently at once — surviving parenchymal cells regenerate while destroyed stroma or extensively damaged areas are repaired by fibrous tissue."], ["Explain the histologic basis of the pink, granular appearance of granulation tissue.", "Each visible granule corresponds to a new, proliferating small blood vessel that is slightly lifted to the surface by a thin covering of fibroblasts and young collagen."], ["Relate the 3 phases of granulation tissue formation to their approximate timing.", "Phase of inflammation occurs within the first 24 hours (clot formation, exudation); phase of clearance follows as debris is removed; phase of ingrowth of granulation tissue (angiogenesis and fibrogenesis) then builds the repair tissue over subsequent days."], ["What are the two components of the ingrowth phase of granulation tissue, and what does each contribute?", "Angiogenesis (neovascularization) supplies new blood vessels for nutrition, while fibrogenesis lays down collagen that ultimately forms the fibrous scar."], ["Compare epithelial changes in first intention versus second intention healing.", "In both, epidermal cells from the wound margins proliferate and migrate as epithelial spurs; in first intention this quickly covers a narrow approximated gap (within 48 hours), while in second intention the epithelial spurs must bridge a much larger gap and do not fully cover the surface until granulation tissue from the base has filled the defect."], ["Why do sutures, adhesive tapes, or metal clips improve the cosmetic result of primary union?", "Close apposition of wound margins keeps the healing gap minimal, producing a neat scar; avoiding removal of stitches (via tapes/clips) also avoids the complications associated with suture removal."], ["Why does second intention healing produce a larger, uglier scar than first intention?", "There is a much larger tissue defect to bridge, so more granulation tissue and collagen must be laid down, and healing must proceed from both the base and margins over a longer time, producing a more extensive and less orderly scar."], ["Explain the mechanism and purpose of wound contraction.", "Myofibroblasts within the granulation tissue contract, pulling the wound margins together and reducing the wound to about one-third to one-fourth of its original size, thereby minimizing the area that needs to be repaired."], ["Why is wound contraction a feature of second intention but not first intention healing?", "First intention wounds are small and already approximated by sutures, so there is no large open defect requiring myofibroblast-driven contraction; second intention wounds have a large open defect that depends on contraction to reduce its size."], ["Explain the color change of granulation tissue as it matures into scar.", "Newly formed granulation tissue is deep red, granular, and very fragile due to its rich vascularity; with maturation, collagen content increases and vascularity decreases, so the scar becomes pale and white."], ["How does deficient granulation tissue formation lead to complications like incisional hernia?", "Inadequate granulation tissue produces a weak scar; especially after a laparotomy, this weak scar may undergo wound dehiscence (bursting open) or later form an incisional hernia."], ["Explain the structural difference between a hypertrophic scar and a keloid.", "Both result from excessive collagen deposition, but a hypertrophic scar remains confined within the original wound borders, whereas a keloid extends beyond them as a tumor-like (claw-shaped) projection of connective tissue."], ["Explain the pathogenesis of a Marjolin's ulcer.", "A chronic scar, typically following a burn, can rarely become the site of malignant transformation, most often giving rise to squamous cell carcinoma."], ["Why does poor blood supply delay healing, and how does this explain the face-vs-leg comparison?", "Healing requires oxygen and nutrients delivered by blood vessels for inflammatory, proliferative, and repair processes; the face has a rich blood supply and heals quickly, whereas a leg with varicose ulcers has poor blood supply and heals slowly."], ["Why do foreign bodies (including sutures) impair wound healing?", "They act as a persistent irritant, provoking an intense inflammatory reaction and predisposing the wound to infection, both of which interfere with orderly healing."], ["Why does ionizing radiation delay wound healing?", "It delays the formation of granulation tissue, impairing the fibroblast and vascular proliferation needed for repair; the eventual outcome (resolution or organization) also depends on the type, size, and location of the injury."], ["Why do aged or debilitated patients heal more slowly?", "They tend to have poorer blood supply to the injured area compared to younger individuals, which slows the delivery of cells and nutrients needed for healing."], ["Summarize the roles of protein, vitamin C, vitamin A, and zinc in wound healing.", "Deficiency of any of these — protein, vitamin C (leading to scurvy), vitamin A, or zinc — impairs the normal processes of wound healing, particularly collagen synthesis and cellular proliferation."], ["Why do glucocorticoids impair wound healing?", "Because of their anti-inflammatory effect, which suppresses the inflammatory and reparative cellular responses necessary for normal healing."], ["Why are uncontrolled diabetics prone to delayed wound healing?", "Uncontrolled diabetics are more prone to develop infections, and infection is itself a major factor that delays healing."], ["How do hematologic abnormalities slow wound healing?", "Defective neutrophil functions (impaired chemotaxis and phagocytosis), neutropenia, and bleeding disorders all impair the early inflammatory and clearance phases required for normal healing."], ["Outline the 4-step sequence of events in primary union.", "(1) Initial hemorrhage, (2) acute inflammatory response, (3) epithelial changes (epithelial spurs bridging the incision, scab formation and shedding), and (4) organization (fibroblast invasion, collagen formation, scar maturation)."], ["Outline the 5-step sequence of events in secondary union.", "(1) Initial hemorrhage, (2) inflammatory phase, (3) epithelial changes (spurs meeting in the middle), (4) granulation tissue formation (the main bulk of healing), and (5) wound contraction (via myofibroblasts)."], ["What does 'organization' refer to in the healing of a primary union wound?", "The process, beginning around day 3, in which fibroblasts invade the wound, followed by new collagen fibril formation by day 5, culminating in a mature scar with scanty cellularity/vascularity by about 4 weeks."], ["Why does healing in secondary union proceed from both the base upward and the margins inward?", "Because the tissue defect is large, granulation tissue must grow up from the viable base of the wound while epithelium and fibrous tissue simultaneously grow in from the surrounding margins to close the gap."], ["Explain how an implantation (epidermal) cyst can form as a complication of wound healing.", "If epithelial cells become trapped beneath the skin surface during the epithelial-migration phase of healing, they may persist and proliferate there, forming an implantation epidermoid cyst."], ["Give one local and one systemic example of a factor that delays wound healing, with reasoning for each.", "Local: poor blood supply (e.g. varicose leg ulcer) — starves the wound of oxygen/nutrients. Systemic: glucocorticoid therapy — suppresses the inflammatory response needed to initiate repair."], ["Why does chronic granulomatous inflammation show scattered lymphocytes around aggregated macrophages rather than macrophages alone?", "Because granuloma formation is driven by a persistent T-cell (lymphocyte) mediated immune response; the lymphocytes provide the cytokine signals (e.g. IFN-γ) that keep macrophages activated, so they remain associated with the epithelioid-cell aggregates."], ["Contrast the predominant cell types of acute versus chronic inflammation as implied by this lecture.", "Acute inflammation is dominated by neutrophils, whereas chronic inflammation is dominated by mononuclear cells — macrophages, lymphocytes, and plasma cells — with macrophages being most important."], ["Explain the link between persistent T-cell responses in TB and Type IV hypersensitivity.", "Sustained antigen exposure to organisms like M. tuberculosis drives ongoing CD4+ T-cell activation and cytokine release, which is the hallmark cellular immune (Type IV) mechanism that produces granuloma formation."], ["How does monocyte chemotactic factor contribute to granuloma formation?", "It is released alongside T-cell lymphokines and recruits additional monocytes/macrophages from the circulation to the site, increasing macrophage accumulation needed to build the granuloma."], ["What is the clinical significance of the uniform, scattered nuclear pattern in foreign body giant cells?", "This pattern helps histologically identify foreign body-type giant cells (as opposed to other giant cell types) and is characteristically associated with chronic infective granulomas, leprosy, and tuberculosis."], ["Give an example illustrating how regeneration and repair combine during skin wound healing.", "In primary union, the epidermis regenerates via proliferating basal epithelial cells to fully restore the epithelial layer, while the underlying dermal defect is repaired by fibrous (collagenous) scar tissue — both occurring together."], ["Why is tissue destruction and necrosis considered a 'central feature' of most chronic inflammatory lesions rather than an occasional finding?", "Because chronic inflammation involves ongoing activation of macrophages that continuously release destructive enzymes and mediators for as long as the offending agent or inflammatory cells persist, making destruction an intrinsic, recurring part of the process rather than an isolated event."], ["Explain why chronic inflammation can be described as inflammation, injury, and healing occurring 'at the same time'.", "Unlike acute inflammation which resolves before repair begins, in chronic inflammation the causative agent persists, so macrophage-driven tissue injury continues even as angiogenesis and fibroblast proliferation are simultaneously attempting to heal the damage."]],
+  hard: [["A patient has long-standing chronic osteomyelitis. Which of the 3 mechanisms of chronic inflammation best explains this, and why?", "It best fits 'chronic inflammation following acute inflammation' — in osteomyelitis, extensive tissue destruction or persistence of small numbers of surviving bacteria at the site of the original acute infection prevents resolution and drives chronicity."], ["Trace the full granuloma-formation pathway from cell injury by M. tuberculosis to granuloma formation.", "Cell injury → failure to digest the agent → weak acute inflammatory response → engulfment by macrophages → persistence of the injurious agent, which triggers a T cell–mediated immune response (activated CD4+ T cells release IL-1, IL-2, IFN-γ, TNF-α, and monocyte chemotactic factor) alongside direct macrophage accumulation from the poorly digestible agent → proliferation of T cells and accumulation of tissue macrophages → macrophages activated by IFN-γ → transformation into epithelioid cells/giant cells plus secretion of fibroblastic cytokines (TGF-β, PDGF) → granuloma."], ["How can foreign-body granulomas form without any microorganism, yet share features with infective granulomas like TB?", "Both arise because macrophages fail to digest a persistent agent — whether a live organism (TB) or an inert material (suture/splinter) — leading to chronic macrophage activation and aggregation into epithelioid-cell granulomas; the unifying mechanism is persistence of an indigestible agent, not the agent's biological nature."], ["Why are Crohn disease and sarcoidosis both classified as granulomatous diseases despite differing etiologies (immune-mediated vs. unknown)?", "Granuloma formation reflects a final common histologic pattern of chronic macrophage activation and epithelioid transformation; it can be triggered either by an aberrant immune response against self or luminal antigens (Crohn disease) or by an unidentified stimulus (sarcoidosis), showing that the granulomatous reaction pattern is not etiology-specific."], ["Predict what happens if a surgical incision meant to heal by first intention becomes infected postoperatively.", "Infection introduces a persistent irritant and inflammatory stimulus, converting what would be primary union into a process resembling second intention healing — with more tissue loss, dependence on granulation tissue from the base, wound contraction, and a larger, less cosmetic scar, along with risk of dehiscence."], ["Explain the biochemical fork in the granuloma pathway diagram after 'macrophages activated by IFN-γ'.", "Activated macrophages follow two parallel fates: transformation into epithelioid cells and giant cells (forming the granuloma's cellular core), and secretion of fibroblast-proliferating cytokines TGF-β and PDGF (driving the surrounding fibrosis) — both processes converge to build the mature granuloma."], ["A scar ruptures weeks after a laparotomy. What is the underlying histologic deficiency, and what complications can result?", "The underlying deficiency is inadequate/deficient granulation tissue formation, producing a weak scar; this weak scar can undergo wound dehiscence (bursting open) or later develop into an incisional hernia."], ["Contrast the mechanisms by which glucocorticoids and uncontrolled diabetes both delay healing.", "Glucocorticoids act directly by suppressing the inflammatory response (anti-inflammatory effect) needed to initiate repair, whereas uncontrolled diabetes delays healing indirectly by predisposing the wound to infection, which is itself the most important local factor delaying healing."], ["Why does vitamin C deficiency specifically impair the organization phase of wound healing?", "Vitamin C (ascorbic acid) is required as a cofactor for collagen synthesis by fibroblasts; its deficiency (scurvy) therefore selectively impairs the collagen-fibril formation that characterizes the organization phase, weakening the resulting scar."], ["A burn scar develops a new non-healing ulcerated lesion years later. What is this condition, what tumor arises, and why?", "This is a Marjolin's ulcer; it results in squamous cell carcinoma. Chronic scar tissue undergoes repeated cycles of injury, inflammation, and repair over years, and this sustained epithelial turnover and chronic irritation predisposes to malignant transformation."], ["Are the fibroblast/vascular events of 'phase 3 — ingrowth of granulation tissue' the same process as 'organization' in primary union, just renamed?", "Essentially yes — both describe angiogenesis (new vessel formation) and fibrogenesis (fibroblast invasion and collagen deposition); 'ingrowth of granulation tissue' is the general description of this process, while 'organization' is the specific term used for this same event as it occurs during primary union healing."], ["Why does a plasma cell-rich infiltrate specifically suggest prolonged immunological stimulation rather than acute mechanical injury?", "Plasma cells are terminally differentiated, antibody-secreting B cells that require sustained antigenic stimulation to accumulate in tissue; their presence in conditions like syphilis, RA, TB, hypersensitivity, or multiple myeloma reflects an established, ongoing immune response rather than the transient neutrophilic response of acute injury."], ["Classify the tissue-destructive mediators released by activated macrophages into enzymatic, reactive-species, and cytokine/growth-factor categories, and explain their combined effect.", "Enzymes: protease, elastase, collagenase, lipase — directly digest matrix proteins and lipids. Reactive species: reactive oxygen radicals, nitric oxide — cause oxidative tissue damage. Cytokines/growth factors: IL-1, IL-8, TNF-α, angiogenesis growth factor — amplify inflammation and recruit further cells. Together, they produce coordinated proteolytic, oxidative, and inflammatory tissue destruction."], ["Why can chronic non-specific inflammation (e.g. lung abscess) still show granulation tissue and fibrosis without forming true granulomas?", "Because granulation tissue and fibrosis are the general 'attempt at healing' seen in ALL chronic inflammation, whereas true granuloma formation additionally requires a specific Type IV, T-cell mediated aggregation of epithelioid macrophages — a feature only of the granulomatous subtype, not of chronic inflammation generally."], ["Why does secondary union have an extra step (wound contraction) that primary union lacks in its healing sequence?", "Primary union involves only a small, sutured gap that does not require size reduction, so myofibroblast contraction is unnecessary; secondary union involves a large open defect, so myofibroblasts within the abundant granulation tissue must actively contract the wound to reduce the area needing repair."], ["Why is myofibroblast-mediated contraction absent in first intention healing despite fibroblasts being present in both types of healing?", "In first intention healing, wound edges are already approximated by sutures and the defect is minimal, so there is no large open area to close by contraction — the fibroblasts present are involved in collagen (organization) rather than the myofibroblast-driven contractile activity needed to shrink a large open wound."], ["Explain why keloids are more common in a specific population and how this differs pathologically from a hypertrophic scar.", "Keloids are more common in Blacks, reflecting a population-level predisposition to excessive fibroblastic collagen synthesis; pathologically, keloids show tumor-like connective tissue projection beyond the original wound border, whereas hypertrophic scars — though also from excess collagen — remain confined within the original wound margins."], ["Why must ionizing radiation exposure be carefully managed in surgical wound care?", "Because ionizing radiation delays granulation tissue formation, impairing the vascular and fibroblastic proliferation essential for repair; in irradiated tissue, wounds heal poorly and are prone to breakdown, so radiotherapy timing relative to surgery must be planned carefully to avoid impaired healing."], ["Mechanistically, why does movement of a wound delay both epithelial migration and granulation tissue formation?", "Repeated mechanical disruption at the wound site damages the fragile new capillaries and disturbs the migrating epithelial spurs and proliferating fibroblasts, effectively 're-injuring' the healing tissue and prolonging the inflammatory and proliferative phases."], ["Predict the effect of neutropenia on all 3 phases of granulation tissue formation after a laceration.", "Phase of inflammation: reduced neutrophil exudation weakens the initial acute response. Phase of clearance: fewer neutrophil-derived proteolytic enzymes impair clearance of necrotic debris, delaying the removal of dead tissue. Phase of ingrowth: delayed clearance postpones angiogenesis and fibrogenesis, since granulation tissue cannot properly ingrow until debris is cleared — overall healing is significantly delayed and infection risk rises."], ["Reconcile the protective versus destructive roles of granuloma formation.", "Granulomas protectively 'wall off' a persistent, poorly digestible agent (limiting its spread), but the same sustained macrophage activation that achieves this also releases destructive enzymes and mediators that damage surrounding normal tissue — so the granuloma is simultaneously a containment mechanism and a source of chronic local tissue injury."], ["Differentiate the source of new blood vessels in angiogenesis during granulation tissue formation from their eventual fate in a mature scar.", "New vessels sprout from pre-existing viable vessels at the wound margins/base during the ingrowth phase, giving granulation tissue its deep-red, vascular appearance; as the scar matures over weeks, vascularity progressively decreases while collagen content increases, leaving a pale, relatively avascular final scar."], ["Why is 'recurrent bouts of acute inflammation' pathologically distinct from 'chronic inflammation following a single episode of acute inflammation', even though both end in chronicity?", "In recurrent bouts (e.g. cholecystitis, pyelonephritis), chronicity results from cumulative damage across multiple discrete acute episodes with intervening partial healing; in chronic inflammation following acute inflammation (e.g. osteomyelitis), a single acute episode simply fails to resolve because of extensive initial damage or persisting organisms, without necessarily recurring as separate episodes."], ["Trace the fate of the blood clot in a first-intention wound from initial hemorrhage to scab removal.", "Initial hemorrhage forms a fibrin clot filling the incisional space; as basal epidermal cells migrate across as epithelial spurs, they separate the underlying viable dermis from the overlying necrotic material and clot, converting the surface clot into a scab, which is then cast off once epithelialization is complete (by about 48 hours to day 5)."], ["What does the '48 hours – 5 days – 4 weeks' timeline of primary union represent physiologically?", "At 48 hours, epithelial coverage is achieved (epithelial spurs seal the surface); by day 5, a multilayered epidermis has differentiated and fibroblasts have begun laying new collagen; by 4 weeks, the scar has matured with scanty cellular and vascular elements and a fully epithelialized surface — reflecting sequential surface sealing, then deep collagenous consolidation."], ["Why does epithelium not fully cover a second-intention wound until granulation tissue has filled the defect from the base?", "Epithelial cells can only migrate across a supportive, vascularized surface; without granulation tissue filling the deep defect first, there is no stable substrate for the epithelial spurs to advance across, so epithelialization must wait for the base to be built up before the surface can be sealed."], ["Why is an implantation epidermal cyst considered an epithelial-cell complication rather than a fibroblast/collagen-related one?", "It arises when epithelial cells — rather than fibroblasts or collagen — become trapped beneath the skin surface during the healing process and continue to proliferate there, forming a keratin-filled epidermoid cyst; the pathology is driven by misplaced epithelium, not by excess or deficient connective tissue."], ["Are local poor blood supply (e.g. varicose ulcer) and systemic age-related poor blood supply the same underlying mechanism?", "Conceptually yes — both ultimately reduce oxygen/nutrient delivery to the wound — but the cause differs: local poor supply reflects a regional vascular problem (e.g. venous insufficiency) at the wound site itself, while age-related poor supply reflects a generalized, systemic decline in vascular perfusion affecting the whole body, including the wound area."], ["What makes wound contraction 'excessive' and lead to conditions like Dupuytren's contracture or Peyronie's disease?", "Normal wound contraction is a regulated myofibroblast-driven process that reduces a wound's size proportionately; when this contractile process becomes exaggerated or dysregulated, it can pull surrounding normal structures (palmar fascia in Dupuytren's, penile cavernous tissue in Peyronie's) into pathological, disfiguring or function-limiting contractures."], ["How do TGF-β and PDGF in the granuloma diagram connect to the general chronic-inflammation feature of 'healing by fibrosis'?", "These fibroblastic-proliferating cytokines, secreted by IFN-γ-activated macrophages, directly stimulate fibroblast proliferation and collagen synthesis around the granuloma — this is the molecular basis of the third hallmark feature of chronic inflammation (attempts at healing by fibrosis), linking macrophage activation directly to scar formation."], ["Predict the combined effect of long-term steroid use on both the inflammatory phase and organization phase of a surgical wound.", "Steroids' anti-inflammatory effect blunts the initial exudative/inflammatory response (reducing early clot stabilization and leukocyte recruitment) and also suppresses fibroblast proliferation and collagen synthesis during organization — the combined effect is a weaker, delayed scar with higher risk of dehiscence."], ["Why does hemosiderin (not melanin) cause pigmentation in a healed wound, and what does this imply?", "Hemosiderin derives from breakdown of extravasated red blood cells/hemoglobin at the injury site; its presence implies that hemorrhage occurred into the tissue during the healing process, with iron pigment deposited locally as the blood is resorbed, unlike melanin which relates to melanocyte activity, not hemorrhage."], ["Reconstruct, in order, the events from 'cell injury by M. tuberculosis' to 'granuloma', naming each intermediate cytokine/cell.", "Cell injury → failure to digest agent → weak acute inflammatory response → engulfment by macrophages → persistence of injurious agent → T cell–mediated immune response with activation of CD4+ T cells (releasing IL-1, IL-2, IFN-γ, TNF-α) and monocyte chemotactic factor → accumulation and proliferation of tissue macrophages/T cells → macrophages activated by IFN-γ → transformation to epithelioid cells/giant cells + secretion of TGF-β/PDGF → granuloma."], ["Why does chronic inflammation starting de novo specifically involve organisms of low pathogenicity rather than highly virulent ones?", "A highly virulent organism typically provokes a strong, destructive acute inflammatory response (or overwhelming infection); an organism of low pathogenicity, like M. tuberculosis, evades rapid clearance without triggering a dramatic acute reaction, instead persisting quietly and stimulating a chronic, T-cell mediated response from the outset."], ["Why does chronicity in granuloma formation depend on persistent antigen–T-cell interaction rather than a single hypersensitivity episode?", "Type IV hypersensitivity (and granuloma formation) requires continuous or repeated antigen presentation to sensitized T cells to sustain cytokine release and ongoing macrophage activation; if the antigen were cleared quickly, T-cell stimulation would cease and the granulomatous reaction could not be maintained chronically."], ["Why are rheumatoid arthritis and SLE described as 'chronic inflammations from the outset' with no preceding acute phase?", "As autoimmune diseases, RA and SLE are driven by a persistent, self-directed immune response present from disease onset, rather than by an initial infectious/traumatic acute insult that later fails to resolve — the immunological trigger itself is inherently a chronic, ongoing process."], ["Differentiate complications from too little repair versus too much repair, and identify the shared regulatory failure.", "Too little repair: deficient scar formation, incisional hernia (inadequate granulation tissue/collagen). Too much repair: keloid, hypertrophic scar, excessive contraction (excess fibroblast/myofibroblast activity and collagen). Both reflect a failure to properly regulate the normal balance of granulation tissue formation and fibroblast/collagen turnover during repair."], ["A chronic leg ulcer fails to heal for years. Using local and systemic factors, build a reasoned differential.", "Local: ongoing infection, poor blood supply (e.g. venous/varicose disease), retained foreign body, repeated movement/trauma. Systemic: advanced age, malnutrition (protein/vitamin C/zinc deficiency), uncontrolled diabetes (infection-prone), glucocorticoid use, or an underlying hematologic/neutrophil defect impairing clearance and granulation tissue formation."], ["Is chronic granulomatous inflammation simply a subtype of chronic inflammation, or a distinct process?", "It is best viewed as a specialized subtype: it still shows the general chronic-inflammation triad (mononuclear infiltration, tissue destruction, healing by fibrosis), but adds a distinctive, additional feature — organized aggregates of epithelioid macrophages rimmed by lymphocytes (true granulomas) — driven specifically by a Type IV, T-cell mediated mechanism not required in non-granulomatous chronic inflammation."], ["Why is skin wound healing called 'a classical example of combination of regeneration and repair' rather than pure repair or pure regeneration?", "The epidermis is regenerated through proliferation of surviving basal epithelial (parenchymal) cells to restore a complete epithelial covering, while the dermal connective tissue defect beneath is repaired via granulation tissue and fibrous scarring — both processes occur together in the same healing wound, exemplifying their combination."]]
+};
+
+let fcLevel = 'easy';
+let flashcards = flashcardsByLevel[fcLevel];
+let fcOrder = flashcards.map((_,i)=>i);
+function renderFlashcards(){
+  const grid = document.getElementById('fcGrid');
+  grid.innerHTML='';
+  fcOrder.forEach(idx=>{
+    const [front, back] = flashcards[idx];
+    const card = document.createElement('div');
+    card.className='fc';
+    card.innerHTML = `
+      <div class="fc-inner">
+        <div class="fc-face fc-front"><span class="fc-label">QUESTION ${idx+1}</span><span class="fc-text">${front}</span></div>
+        <div class="fc-face fc-back"><span class="fc-label">ANSWER</span><span class="fc-text">${back}</span></div>
+      </div>`;
+    card.addEventListener('click', ()=> card.classList.toggle('flipped'));
+    grid.appendChild(card);
+  });
+  document.getElementById('fcCount').textContent = `${flashcards.length} cards`;
+}
+renderFlashcards();
+document.getElementById('shuffleFc').addEventListener('click', ()=>{
+  for(let i=fcOrder.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [fcOrder[i],fcOrder[j]]=[fcOrder[j],fcOrder[i]];
+  }
+  renderFlashcards();
+});
+document.getElementById('fcLevelTabs').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button[data-level]');
+  if(!btn) return;
+  fcLevel = btn.dataset.level;
+  flashcards = flashcardsByLevel[fcLevel];
+  fcOrder = flashcards.map((_,i)=>i);
+  document.querySelectorAll('#fcLevelTabs button').forEach(b=>b.classList.toggle('active', b===btn));
+  renderFlashcards();
+});
+
+/* ===================== 5. QUIZ BANK ===================== */
+/* Three difficulty tiers: easy (60 MCQs), medium (50 MCQs), hard (40 MCQs). */
+const quizRawByLevel = {
+  easy: [["Chronic inflammation is best described as inflammation of:", ["Minutes to hours", "Hours to days", "Weeks to months to years", "Seconds only"], 2], ["In chronic inflammation, which processes occur at the same time?", ["Only healing", "Only tissue injury", "Active inflammation, tissue injury, and healing", "Only active inflammation"], 2], ["Chronic inflammation may occur by all of the following EXCEPT:", ["Following acute inflammation", "Recurrent attacks of acute inflammation", "Chronic from the beginning (de novo)", "Complete resolution within 24 hours"], 3], ["Osteomyelitis and pneumonia are examples of chronic inflammation arising:", ["Following acute inflammation", "From autoimmunity only", "From allergy only", "Spontaneously with no prior injury"], 0], ["Recurrent urinary tract infection can lead to:", ["Chronic cholecystitis", "Chronic pyelonephritis", "Chronic osteomyelitis", "Sarcoidosis"], 1], ["Repeated attacks of acute cholecystitis lead to:", ["Chronic pyelonephritis", "Chronic cholecystitis", "Chronic osteomyelitis", "Tuberculosis"], 1], ["Mycobacterium tuberculosis is a classic example of infection that is:", ["Chronic from the beginning", "Always acute only", "Never causing granulomas", "Cleared within hours"], 0], ["Which of the following diseases is chronic inflammation from the outset due to autoimmunity?", ["Osteomyelitis", "Systemic lupus erythematosus", "Pneumonia", "Chronic cholecystitis"], 1], ["Chronic inflammation is characterized by all of the following EXCEPT:", ["Mononuclear cell infiltration", "Tissue destruction", "Attempts at healing by fibrosis", "Massive neutrophilic infiltration"], 3], ["Which cells infiltrate chronic inflammatory lesions?", ["Neutrophils only", "Mononuclear inflammatory cells", "Red blood cells only", "Platelets only"], 1], ["The most important cell in chronic inflammation is the:", ["Neutrophil", "Eosinophil", "Macrophage", "Basophil"], 2], ["Compared to lymphocytes, plasma cells are:", ["Smaller with less cytoplasm", "Larger with more abundant cytoplasm", "Identical in size", "Non-nucleated"], 1], ["The nucleus of a plasma cell is typically:", ["Central", "Eccentric", "Absent", "Multi-lobed"], 1], ["Plasma cell numbers increase in all of the following EXCEPT:", ["Prolonged infection with immune response", "Hypersensitivity states", "Multiple myeloma", "Acute appendicitis"], 3], ["Tissue destruction in chronic inflammation is mainly caused by:", ["Resting fibroblasts", "Activated macrophages", "Platelets alone", "Red blood cells"], 1], ["Which of the following is released by activated macrophages to cause tissue destruction?", ["Collagenase", "Hemoglobin", "Melanin", "Bilirubin"], 0], ["Healing attempts in chronic inflammation involve proliferation of:", ["Small blood vessels and fibroblasts", "Neutrophils only", "Red blood cells only", "Osteoclasts only"], 0], ["Foreign body giant cells can contain up to how many nuclei?", ["10", "100", "2", "1000"], 1], ["In foreign body giant cells, the nuclei are:", ["Clustered at one pole", "Scattered throughout the cytoplasm", "Absent", "Fused into one nucleus"], 1], ["Foreign body giant cells are typically seen in:", ["Acute appendicitis", "Chronic infective granulomas, leprosy, tuberculosis", "Acute pneumonia", "Normal healthy tissue"], 1], ["Chronic inflammation is conventionally subdivided into:", ["1 type", "2 types", "3 types", "4 types"], 1], ["Chronic osteomyelitis, chronic ulcer, and lung abscess are examples of:", ["Chronic granulomatous inflammation", "Chronic non-specific inflammation", "Acute inflammation", "Autoimmune disease"], 1], ["Chronic granulomatous inflammation is characterized by aggregates of:", ["Neutrophils only", "Activated macrophages with scattered lymphocytes", "Red blood cells", "Eosinophils only"], 1], ["Which of the following diseases forms granulomas?", ["Tuberculosis", "Acute pyelonephritis", "Acute pneumonia", "Acute cholecystitis"], 0], ["A granuloma is best defined as:", ["A large diffuse inflammatory infiltrate", "A circumscribed lesion of epithelioid cells rimmed by lymphoid cells", "A collection of red blood cells", "A malignant tumor"], 1], ["The modified macrophages found in granulomas are called:", ["Foam cells", "Epithelioid cells", "Kupffer cells", "Langerhans cells of skin"], 1], ["Which cells rim the periphery of a granuloma?", ["Neutrophils", "Lymphoid cells", "Red blood cells", "Eosinophils"], 1], ["Granuloma formation is an example of which hypersensitivity reaction?", ["Type I", "Type II", "Type III", "Type IV"], 3], ["Which disease is associated with granuloma formation as an immune-mediated inflammatory disease?", ["Osteomyelitis", "Crohn disease", "Acute pyelonephritis", "Acute cholecystitis"], 1], ["Foreign body granulomas form in response to:", ["Highly antigenic organisms", "Relatively inert foreign material (e.g. suture, splinter)", "Viral infections only", "Allergic reactions only"], 1], ["Healing involves which two processes?", ["Inflammation and necrosis", "Regeneration and repair", "Hemorrhage and infection", "Congestion and edema"], 1], ["Regeneration results in:", ["Fibrosis and scarring", "Complete restoration via parenchymal cell proliferation", "Keloid formation", "Wound contraction"], 1], ["Repair is defined as:", ["Replacement of injured tissue by parenchymal cells", "Replacement of injured tissue by fibrous tissue", "Complete regrowth of the original structure", "Resolution with no tissue change"], 1], ["The two processes involved in repair are:", ["Granulation tissue formation and wound contraction", "Regeneration and resolution", "Hemorrhage and clearance only", "Angiogenesis and necrosis only"], 0], ["Granulation tissue derives its name from:", ["Its smooth glassy appearance", "Its slightly granular and pink appearance", "Its black color", "Its bony hard texture"], 1], ["The 3 phases of granulation tissue formation are:", ["Inflammation, clearance, ingrowth of granulation tissue", "Necrosis, calcification, ossification", "Hemorrhage, infection, scarring", "Edema, congestion, resolution"], 0], ["The phase of ingrowth of granulation tissue consists of which two processes?", ["Angiogenesis and fibrogenesis", "Necrosis and calcification", "Hemorrhage and infection", "Edema and congestion"], 0], ["Healing by first intention requires all of the following EXCEPT:", ["Clean, uninfected wound", "Surgically incised wound", "Extensive loss of cells and tissue", "Edges approximated by sutures"], 2], ["In primary union, a well-approximated wound is covered by epithelium by:", ["12 hours", "48 hours", "1 week", "1 month"], 1], ["In primary union, a multilayered new epidermis forms by:", ["Day 1", "Day 5", "Day 20", "Day 40"], 1], ["Scar tissue formation in primary union is typically complete by:", ["24 hours", "1 week", "4 weeks", "6 months"], 2], ["Healing by second intention is characterized by:", ["A small, clean incised wound", "An open wound with large tissue defect, at times infected", "A wound closed immediately with sutures", "No granulation tissue formation"], 1], ["In secondary union, healing takes place:", ["Only from the margins inward", "Only from the base upward", "From the base upward and from the margins inward", "Randomly, with no direction"], 2], ["Compared to primary union, healing by second intention is:", ["Faster, with a neater scar", "Slower, with a larger, at times uglier scar", "Identical in speed and scar quality", "Seen only in bone healing"], 1], ["Wound contraction in secondary healing is due to the action of:", ["Neutrophils", "Myofibroblasts", "Osteoblasts", "Mast cells"], 1], ["Wound contraction typically reduces the wound to what fraction of its original size?", ["One-half", "One-third to one-fourth", "Two-thirds", "No reduction occurs"], 1], ["Which of the following is NOT a complication of wound healing?", ["Keloid formation", "Incisional hernia", "Complete restoration without any scar", "Implantation epidermal cyst"], 2], ["Rust-like pigmentation of a healed wound is due to staining with:", ["Melanin", "Hemosiderin", "Bilirubin", "Lipofuscin"], 1], ["Keloids differ from hypertrophic scars in that keloids:", ["Stay confined within the wound border", "Show tumor-like projection beyond the wound border", "Never contain collagen", "Occur only in the very young"], 1], ["Marjolin's ulcer refers to:", ["A benign cyst in a scar", "Squamous cell carcinoma developing in a burn scar", "A hypertrophic scar only", "A wound infection"], 1], ["Which local factor most commonly delays wound healing?", ["Infection", "Young age", "Adequate blood supply", "Good nutrition"], 0], ["Vitamin C deficiency causing delayed wound healing is known as:", ["Rickets", "Scurvy", "Pellagra", "Beriberi"], 1], ["Glucocorticoids delay wound healing mainly through their:", ["Pro-inflammatory effect", "Anti-inflammatory effect", "Antibacterial effect", "Anticoagulant effect"], 1], ["Uncontrolled diabetics are more prone to delayed healing because they:", ["Have excess vitamin C", "Are more prone to infections", "Have excess granulation tissue", "Never develop scars"], 1], ["Wound healing is generally faster in:", ["Aged and debilitated people", "Young people", "People with poor blood supply", "People with foreign bodies in the wound"], 1], ["Which of the following is a systemic factor delaying wound healing?", ["Foreign body in the wound", "Poor local blood supply", "Systemic infection", "Movement of the wound"], 2], ["Dupuytren's (palmar) contracture is an example of:", ["Deficient scar formation", "Excessive wound contraction", "Wound infection", "Implantation cyst"], 1], ["Which cytokine, released by activated CD4+ T cells, activates macrophages into epithelioid cells?", ["IL-4", "IFN-γ", "IL-10", "TGF-α"], 1], ["Infection as a complication of wound healing occurs due to:", ["Entry of bacteria into the wound", "Excess vitamin intake", "Too much granulation tissue", "Rapid epithelialization"], 0], ["An implantation (epidermal) cyst forms due to:", ["Persistence of epithelial cells within the healing tissue", "Excess collagen only", "Bacterial infection only", "Loss of blood supply"], 0]],
+  medium: [["Chronic inflammation follows acute inflammation when:", ["Tissue destruction is minimal and bacteria are eliminated", "Tissue destruction is extensive, or bacteria persist in small numbers", "The acute response never occurred", "Healing is complete within hours"], 1], ["Which statement best distinguishes 'recurrent acute attacks' from 'chronic inflammation following acute inflammation'?", ["Both refer to the exact same single-episode mechanism", "Recurrent attacks involve repeated separate bouts of acute inflammation culminating in chronicity, while the other follows one unresolved acute episode", "There is no difference between the two mechanisms", "Recurrent attacks only occur in autoimmune disease"], 1], ["Why is a low-pathogenicity organism such as M. tuberculosis associated with chronicity from the outset?", ["It always causes a fulminant acute infection first", "It evades rapid clearance and stimulates a persistent, low-grade immune response from the start", "It never triggers an immune response", "It causes chronicity only after multiple acute relapses"], 1], ["Which best explains why macrophages are central to BOTH destruction and repair in chronic inflammation?", ["They only release destructive enzymes and take no part in repair", "They release destructive mediators and also secrete growth factors driving angiogenesis/fibroblast proliferation", "They are inactive bystander cells", "They are only present in acute inflammation"], 1], ["A biopsy shows abundant plasma cells. This most strongly suggests:", ["Acute trauma with no immune involvement", "Prolonged infection with an immunological response, hypersensitivity, or multiple myeloma", "Normal healthy tissue", "Ischemic necrosis only"], 1], ["Which group correctly matches enzymatic mediators released by activated macrophages?", ["IL-1, IL-8, TNF-α", "Protease, elastase, collagenase", "Hemoglobin, bilirubin, melanin", "Estrogen, testosterone, cortisol"], 1], ["Why does chronic inflammation typically progress to fibrosis while acute inflammation usually resolves without scarring?", ["Chronic inflammation involves persistent injury with simultaneous vascular/fibroblast proliferation that matures into collagenous scar", "Acute inflammation always causes more scarring", "Fibrosis only occurs in granulomatous disease", "Chronic inflammation never involves fibroblasts"], 0], ["The key structural difference between chronic non-specific and chronic granulomatous inflammation is:", ["Only granulomatous inflammation shows any healing by fibrosis", "Granulomatous inflammation forms organized epithelioid-cell aggregates rimmed by lymphocytes; non-specific inflammation does not", "Non-specific inflammation always involves fungi", "There is no difference between the two"], 1], ["The suffix '-oma' in the word 'granuloma' indicates:", ["A true malignant tumor", "A localized inflammatory mass or collection of macrophages", "A viral infection", "An allergic reaction"], 1], ["Granuloma formation is classified as Type IV hypersensitivity because:", ["It is mediated by antibodies", "It results from a persistent, cell-mediated (T-cell driven) immune response", "It occurs within minutes of exposure", "It involves immune complex deposition"], 1], ["Which of the following correctly pairs a granuloma-forming setting with its example?", ["Persistent T-cell response — Crohn disease", "Immune-mediated inflammatory disease — Crohn disease", "Foreign body reaction — tuberculosis", "Unknown etiology — T. pallidum infection"], 1], ["In the granuloma pathway, activated CD4+ T cells release lymphokines that include:", ["Insulin and glucagon", "IL-1, IL-2, IFN-γ, and TNF-α", "Only histamine", "Only bradykinin"], 1], ["Which cytokines specifically drive fibroblast proliferation around a forming granuloma?", ["IL-1 and IL-2 only", "TGF-β and PDGF", "Histamine and serotonin", "Insulin and cortisol"], 1], ["Why can regeneration and repair occur simultaneously in the same wound?", ["They are mutually exclusive and can never coexist", "Surviving parenchymal cells can regenerate while destroyed stroma is repaired by fibrous tissue at the same time", "Only repair ever occurs in humans", "Regeneration always precedes repair by several months"], 1], ["Each visible granule in granulation tissue histologically corresponds to:", ["A neutrophil abscess", "A proliferating new small blood vessel covered by fibroblasts and young collagen", "A necrotic focus", "A calcified nodule"], 1], ["Which phase of granulation tissue formation is characterized by clot formation and neutrophil/monocyte exudation within 24 hours?", ["Phase of clearance", "Phase of ingrowth", "Phase of inflammation", "Phase of contraction"], 2], ["Which combination correctly clears necrotic debris in the phase of clearance?", ["Proteolytic enzymes from neutrophils, autolytic enzymes from dead cells, and macrophage phagocytosis", "Only red blood cell lysis", "Only osteoclastic activity", "Only antibody-mediated lysis"], 0], ["In primary union, epithelial spurs migrate from the cut margins mainly to:", ["Destroy the underlying dermis", "Bridge the incisional space and cover the wound with epithelium", "Cause additional hemorrhage", "Recruit more neutrophils only"], 1], ["Why is the scar of a sutured (primary union) wound neater than that of secondary union?", ["Because sutures prevent any inflammation", "Close apposition of wound margins minimizes the gap that must be bridged by repair tissue", "Because primary union never involves granulation tissue", "Because primary union heals without any epithelium"], 1], ["The epithelial spurs in secondary union do NOT fully cover the surface until:", ["The scab has been removed", "Granulation tissue from the base has started filling the wound space", "24 hours have passed", "The scar has turned white"], 1], ["Why does secondary union result in a slower and larger scar than primary union?", ["It has a smaller tissue defect to bridge", "It has a larger tissue defect that must be bridged from both the base and the margins", "It never involves fibroblasts", "It always gets infected"], 1], ["The main bulk of secondary healing is provided by:", ["Neutrophil infiltration alone", "Granulation tissue (fibroblast proliferation and neovascularization)", "Osteoblast activity", "Epithelial regeneration alone"], 1], ["The change in granulation tissue color from deep red to pale/white during maturation reflects:", ["Increasing vascularity and decreasing collagen", "Increasing collagen and decreasing vascularity", "Loss of all cells", "Onset of infection"], 1], ["Deficient scar formation, which can predispose to incisional hernia, results from:", ["Excessive granulation tissue", "Inadequate formation of granulation tissue", "Too much collagen deposition", "Rapid epithelialization"], 1], ["The structural feature that best distinguishes a keloid from a hypertrophic scar is:", ["Keloids never contain collagen", "Keloids show tumor-like projection beyond the original wound border; hypertrophic scars stay within it", "Hypertrophic scars are always larger than keloids", "There is no structural difference"], 1], ["Why do facial wounds typically heal faster than wounds over a varicose leg ulcer?", ["The face has poorer blood supply than the leg", "The face has a rich blood supply, while varicose ulcer areas have poor blood supply", "Facial skin lacks fibroblasts", "Leg wounds never form granulation tissue"], 1], ["Foreign bodies, including retained sutures, delay healing chiefly by:", ["Providing extra nutrients to the wound", "Provoking an intense inflammatory reaction and increasing infection risk", "Accelerating epithelialization", "Preventing any inflammatory response"], 1], ["Exposure to ionizing radiation delays wound healing primarily by:", ["Accelerating granulation tissue formation", "Delaying granulation tissue formation", "Increasing collagen synthesis", "Having no effect on healing"], 1], ["Aged and debilitated patients heal more slowly mainly because of:", ["Excess vitamin C stores", "Poor blood supply to the injured area", "Overactive immune systems", "Excess granulation tissue"], 1], ["Which nutrient deficiencies are specifically linked to delayed wound healing in this lecture?", ["Protein, vitamin C, vitamin A, and zinc", "Only carbohydrates", "Only vitamin B12", "Only calcium"], 0], ["Glucocorticoid-related delayed healing is best explained by:", ["Their anti-inflammatory effect suppressing the reparative response", "Their ability to increase neutrophil numbers", "Their promotion of excess granulation tissue", "Their antibacterial properties"], 0], ["Hematologic abnormalities that slow wound healing include all of the following EXCEPT:", ["Defective neutrophil chemotaxis/phagocytosis", "Neutropenia", "Bleeding disorders", "Polycythemia with normal neutrophil function"], 3], ["The correct order of events in primary union is:", ["Organization, epithelial changes, hemorrhage, inflammation", "Initial hemorrhage, acute inflammatory response, epithelial changes, organization", "Epithelial changes, organization, hemorrhage, inflammation", "Wound contraction, hemorrhage, inflammation, epithelialization"], 1], ["The correct order of events in secondary union is:", ["Organization, granulation tissue, hemorrhage, contraction", "Initial hemorrhage, inflammatory phase, epithelial changes, granulation tissue, wound contraction", "Wound contraction, hemorrhage, epithelial changes, organization", "Epithelial changes only, with no other steps"], 1], ["'Organization' in primary union healing refers to:", ["The initial hemorrhage only", "Fibroblast invasion (day 3), new collagen formation (day 5), and scar maturation (4 weeks)", "Formation of a scab within minutes", "Wound contraction by myofibroblasts"], 1], ["Why does healing in second intention proceed from both the base upward and the margins inward?", ["Because the defect is large and must be filled from multiple directions simultaneously", "Because epithelium never migrates in second intention", "Because there is no granulation tissue in second intention", "Because contraction occurs before hemorrhage"], 0], ["An implantation epidermal cyst forms when:", ["Fibroblasts persist beneath the epidermis", "Epithelial cells become trapped and persist beneath the skin surface during healing", "Neutrophils accumulate excessively", "Blood vessels fail to regress"], 1], ["Which of the following pairs a local factor with the correct reasoning for delayed healing?", ["Movement — accelerates epithelial migration", "Poor blood supply — reduces oxygen/nutrient delivery to the wound", "Ionizing radiation — enhances granulation tissue formation", "Foreign bodies — improve wound apposition"], 1], ["Scattered lymphocytes are found around aggregated epithelioid macrophages in a granuloma because:", ["Lymphocytes provide cytokine signals (e.g., IFN-γ) that sustain macrophage activation", "Lymphocytes are inert bystanders with no functional role", "Lymphocytes replace macrophages entirely in chronic disease", "Lymphocytes cause the granuloma to resolve immediately"], 0], ["Compared to acute inflammation, chronic inflammation is dominated by:", ["Neutrophils", "Mononuclear cells (macrophages, lymphocytes, plasma cells)", "Eosinophils exclusively", "Platelets exclusively"], 1], ["Monocyte chemotactic factor, released during granuloma formation, functions to:", ["Recruit additional monocytes/macrophages from the circulation to the site", "Destroy all lymphocytes at the site", "Convert epithelioid cells back into fibroblasts", "Suppress angiogenesis"], 0], ["The uniform, scattered nuclear pattern of foreign body giant cells is diagnostically useful because:", ["It helps distinguish them from other giant cell types and is linked to chronic infective granulomas, leprosy, and TB", "It indicates the tissue is entirely normal", "It rules out any chronic disease", "It is seen only in acute inflammation"], 0], ["Skin wound healing illustrates a combination of regeneration and repair because:", ["The epidermis regenerates via basal cell proliferation while the dermal defect is repaired by fibrous scar tissue", "Only regeneration ever occurs in the skin", "Only repair ever occurs in the skin", "Neither process occurs in cutaneous wounds"], 0], ["Tissue destruction is considered a 'central feature' of chronic inflammatory lesions because:", ["It occurs only once and then stops permanently", "Ongoing macrophage activation continuously releases destructive mediators as long as the offending agent persists", "Chronic inflammation never involves any tissue damage", "It is unrelated to macrophage activity"], 1], ["Chronic inflammation is described as having inflammation, injury, and healing 'at the same time' because:", ["The causative agent persists, so injury continues even as repair mechanisms act simultaneously", "Healing always finishes before any injury begins", "Injury and healing can never coexist", "Acute inflammation shows the same simultaneous pattern"], 0], ["A hypertrophic scar differs from normal scarring mainly by:", ["Complete absence of collagen", "Excessive but border-confined collagen deposition", "Malignant transformation", "Loss of all fibroblasts"], 1], ["Which best explains why a Marjolin's ulcer arises specifically in a chronic burn scar?", ["Chronic scar tissue undergoes repeated injury/repair cycles and epithelial turnover that predispose to malignant transformation", "Burn scars are always sterile and cannot transform", "Only acute wounds can develop malignancy", "Marjolin's ulcer is unrelated to prior scarring"], 0], ["Excessive wound contraction leading to Dupuytren's or Peyronie's disease reflects:", ["A normal, appropriately regulated healing process", "A dysregulated, exaggerated myofibroblast contractile process affecting surrounding structures", "Complete absence of myofibroblasts", "A purely infectious process"], 1], ["Which statement correctly relates fibrogenesis in the ingrowth phase to eventual scar maturation?", ["Fibrogenesis lays down collagen that matures into the collagen-rich, less vascular final scar", "Fibrogenesis has no role in scar formation", "Fibrogenesis only occurs in acute inflammation", "Fibrogenesis reduces collagen content over time"], 0], ["Which of the following best explains the shared mechanism of deficient scar and incisional hernia?", ["Both result from inadequate granulation tissue producing a weak scar", "Both result from excessive collagen deposition", "Both are unrelated to granulation tissue", "Both only occur after burns"], 0]],
+  hard: [["A patient with chronic osteomyelitis has surviving bacteria persisting in small numbers at the original infection site. This best illustrates which mechanism of chronic inflammation?", ["Chronic inflammation de novo", "Autoimmunity", "Chronic inflammation following acute inflammation", "Recurrent bouts of acute inflammation"], 2], ["In the granuloma-formation pathway, after macrophages fail to digest the agent and engulf it, persistence of the injurious agent triggers two parallel routes. These are:", ["Resolution and organization", "T cell–mediated immune response and a poorly digestible agent pathway, both converging on macrophage accumulation", "Apoptosis and necrosis", "Angiogenesis and calcification"], 1], ["Foreign body granulomas (e.g., around a suture) and infective granulomas (e.g., in TB) share which unifying pathogenic mechanism?", ["Both require a viable, replicating organism", "Both arise from persistence of an agent that macrophages cannot digest, regardless of whether it is living or inert", "Both are exclusively antibody-mediated", "Both resolve within 48 hours without granuloma formation"], 1], ["Crohn disease and sarcoidosis both form granulomas despite differing etiologies. This demonstrates that granuloma formation is:", ["Etiology-specific, occurring only in infections", "A final common histologic pattern that can be triggered by diverse immune or unknown stimuli", "Exclusive to autoimmune disease", "Never seen in diseases of unknown cause"], 1], ["If a surgical incision meant to heal by first intention becomes infected postoperatively, the most likely consequence is:", ["Faster healing with a neater scar", "A shift toward a pattern resembling second intention healing, with more tissue loss and a larger scar", "Immediate keloid formation only", "No change in the healing process"], 1], ["In the granuloma pathway diagram, macrophages activated by IFN-γ follow two parallel fates. These are:", ["Transformation to epithelioid cells/giant cells, and secretion of fibroblastic cytokines (TGF-β, PDGF)", "Apoptosis and phagocytosis of neutrophils", "Conversion to lymphocytes and to plasma cells", "Differentiation into osteoclasts and osteoblasts"], 0], ["A weak scar after laparotomy that bursts open is termed wound dehiscence; if it recurs chronically, it may progress to:", ["Keloid formation", "Incisional hernia", "Marjolin's ulcer", "Implantation cyst"], 1], ["Glucocorticoids and uncontrolled diabetes both delay wound healing, but through different mechanisms. Which pairing is correct?", ["Glucocorticoids act via anti-inflammatory suppression; diabetes acts mainly via increased susceptibility to infection", "Glucocorticoids act via increased infection risk; diabetes acts via anti-inflammatory suppression", "Both act by causing excessive granulation tissue", "Both act by directly destroying fibroblasts"], 0], ["Vitamin C deficiency (scurvy) impairs wound healing primarily by disrupting which specific process?", ["Neutrophil chemotaxis", "Collagen synthesis by fibroblasts during organization", "Epithelial cell migration only", "Myofibroblast contraction"], 1], ["A chronic burn scar develops a new ulcerated lesion after several years, which on biopsy is squamous cell carcinoma. This is best termed:", ["Keloid degeneration", "Marjolin's ulcer", "Deficient scar formation", "Implantation cyst"], 1], ["The 'ingrowth of granulation tissue' phase (angiogenesis + fibrogenesis) in the general 3-phase model corresponds to which specific step described in primary union healing?", ["Initial hemorrhage", "Acute inflammatory response", "Organization", "Epithelial changes"], 2], ["A tissue biopsy shows abundant plasma cells. This finding is LEAST consistent with:", ["Syphilis", "Rheumatoid arthritis", "Multiple myeloma", "A few hours-old traumatic laceration"], 3], ["Which grouping correctly classifies the tissue-destructive mediators released by activated macrophages?", ["Enzymes (protease, elastase, collagenase, lipase); reactive species (ROS, nitric oxide); cytokines (IL-1, IL-8, TNF-α, angiogenesis growth factor)", "All mediators are cytokines with no enzymatic activity", "All mediators are reactive oxygen species only", "Enzymes and cytokines are identical categories"], 0], ["A lung abscess shows granulation tissue and fibrosis but no true granulomas. This is consistent with:", ["Chronic granulomatous inflammation", "Chronic non-specific inflammation", "Type I hypersensitivity", "Absence of any chronic inflammatory process"], 1], ["Why does secondary union include wound contraction as an additional step not present in primary union's sequence?", ["Primary union wounds are small and already approximated, so no contraction is needed; secondary union wounds have a large open defect requiring myofibroblast-driven size reduction", "Contraction occurs only in the absence of granulation tissue", "Primary union wounds always contract more than secondary union wounds", "Contraction is unrelated to wound size"], 0], ["Myofibroblast-mediated contraction is absent in first intention healing, even though fibroblasts are present, mainly because:", ["First intention wounds have no fibroblasts at all", "There is no large open defect requiring contraction; sutures already approximate the margins", "Myofibroblasts only exist in infected wounds", "First intention healing never involves fibroblasts or collagen"], 1], ["Keloid formation shows a population predisposition (more common in Blacks) and differs from hypertrophic scars by:", ["Producing less collagen than hypertrophic scars", "Extending beyond the original wound border as a tumor-like projection, rather than staying confined to it", "Occurring only in surgical wounds", "Never involving fibroblasts"], 1], ["Ionizing radiation must be carefully timed around surgery because it:", ["Accelerates granulation tissue formation, causing overly rapid healing", "Delays granulation tissue formation, impairing repair and predisposing to wound breakdown", "Has no effect on wound healing", "Only affects epithelial cells, never fibroblasts"], 1], ["Repeated mechanical movement delays wound healing chiefly because it:", ["Accelerates epithelial spur migration", "Disrupts fragile new capillaries and migrating epithelium/fibroblasts, effectively re-injuring the healing tissue", "Has no effect on granulation tissue", "Increases vitamin C delivery to the wound"], 1], ["A neutropenic patient sustains a laceration. Which phase of granulation tissue formation is affected FIRST and how?", ["The ingrowth phase, with excess angiogenesis", "The phase of inflammation, with reduced neutrophil exudation, subsequently impairing clearance", "The phase of clearance only, with no effect on inflammation", "No phase is affected because neutrophils are not involved in wound healing"], 1], ["Granulomas both protect and damage tissue. This apparent paradox is best explained by:", ["Granulomas contain no macrophages, so they cannot damage tissue", "The same sustained macrophage activation that walls off a persistent agent also releases mediators that damage surrounding normal tissue", "Granulomas are purely protective with zero tissue damage", "Granulomas only form in the absence of macrophages"], 1], ["As granulation tissue matures into a scar, vascularity and collagen content change as follows:", ["Both increase over time", "Both decrease over time", "Vascularity decreases while collagen content increases", "Vascularity increases while collagen content decreases"], 2], ["The distinction between 'recurrent bouts of acute inflammation' and 'chronic inflammation following a single acute episode' lies mainly in:", ["Recurrent bouts involve multiple discrete acute episodes with cumulative damage; the latter involves one acute episode that fails to resolve", "There is no real distinction between the two", "Recurrent bouts never involve infection", "The latter always involves autoimmunity"], 0], ["In primary union, the surface clot is converted into a scab that is eventually cast off. This occurs because:", ["Migrating epidermal cells separate the underlying viable dermis from the overlying necrotic material and clot", "The clot dissolves spontaneously with no cellular involvement", "Fibroblasts directly digest the clot within minutes", "Neutrophils convert the clot into new epidermis"], 0], ["The timeline of primary union (48 hours, day 5, 4 weeks) corresponds respectively to:", ["Epithelial coverage; multilayered epidermis/new collagen; mature scar", "Initial hemorrhage; wound contraction; infection", "Scar maturation; initial hemorrhage; epithelial coverage", "There is no meaningful correspondence between these times and specific events"], 0], ["In second-intention healing, epithelium fails to fully cover the wound surface until granulation tissue fills the base because:", ["Epithelial cells require a vascularized, supportive surface over which to migrate", "Epithelial cells actively avoid healthy granulation tissue", "Granulation tissue destroys migrating epithelial cells", "Epithelialization always precedes granulation tissue formation"], 0], ["An implantation epidermal cyst is pathologically distinct from a keloid because it results from:", ["Excess collagen deposition, like a keloid", "Misplaced, trapped epithelial cells persisting beneath the skin surface, not from excess connective tissue", "Deficient granulation tissue, like an incisional hernia", "Myofibroblast overactivity"], 1], ["Local poor blood supply (e.g., varicose ulcer) and systemic age-related poor blood supply both delay healing via reduced perfusion, but differ in that:", ["They are identical mechanisms with no distinction", "The local form reflects a regional vascular problem at the wound site, while the systemic form reflects generalized age-related vascular decline", "The local form is systemic and the systemic form is local", "Only the systemic form involves blood vessels at all"], 1], ["Dupuytren's contracture and Peyronie's disease both illustrate:", ["Deficient wound healing with too little collagen", "An exaggerated, dysregulated form of the normal myofibroblast-driven wound contraction process", "Granulomatous inflammation exclusively", "Implantation cyst formation"], 1], ["TGF-β and PDGF, secreted by IFN-γ-activated macrophages in the granuloma pathway, link directly to which hallmark feature of chronic inflammation?", ["Mononuclear cell infiltration", "Attempts at healing by fibrosis", "Massive neutrophilic infiltration", "Resolution without scarring"], 1], ["Long-term glucocorticoid use before surgery is expected to impair which TWO aspects of wound healing simultaneously?", ["Only epithelial migration and nothing else", "The initial inflammatory/exudative response AND fibroblast proliferation/collagen synthesis during organization", "Only bone remodeling", "Only pigmentation of the scar"], 1], ["Rust-like pigmentation in a healed wound (hemosiderin staining) implies that:", ["Melanocyte hyperactivity occurred during healing", "Hemorrhage occurred into the tissue during the healing process, with iron pigment deposited as blood was resorbed", "No vascular events occurred during healing", "The wound became malignant"], 1], ["In the granuloma pathway, monocyte chemotactic factor and CD4+ T-cell lymphokines (IL-1, IL-2, IFN-γ, TNF-α) act together to primarily:", ["Suppress macrophage recruitment entirely", "Recruit and activate macrophages, driving their accumulation and transformation into epithelioid/giant cells", "Convert epithelioid cells directly into lymphocytes", "Inhibit fibroblast activity completely"], 1], ["A highly virulent organism versus M. tuberculosis (low pathogenicity) typically differ in that the highly virulent organism:", ["Also causes chronicity from the outset in the same way as TB", "Tends to provoke a strong, destructive acute inflammatory response rather than a quiet, persistent chronic process", "Never elicits any inflammatory response", "Always causes granuloma formation instead of acute inflammation"], 1], ["Chronicity in granuloma formation is sustained specifically because:", ["The antigen is cleared within hours, ending T-cell stimulation", "Continuous or repeated antigen presentation to sensitized T cells sustains ongoing cytokine release and macrophage activation", "Granulomas form independently of any T-cell involvement", "B cells alone maintain granuloma formation"], 1], ["Rheumatoid arthritis and SLE are chronic 'from the outset' (not following an acute phase) because:", ["They are triggered by a single resolved acute infection", "They are driven by a persistent, self-directed autoimmune response present from disease onset, with no preceding acute insult", "They always follow tuberculosis infection", "They are examples of chronic non-specific inflammation"], 1], ["Deficient scar/incisional hernia (too little repair) and keloid/excessive contraction (too much repair) both reflect:", ["A failure to properly regulate granulation tissue formation and fibroblast/collagen turnover during repair", "Identical clinical presentations with no underlying difference", "Conditions that occur only in first intention healing", "Processes unrelated to granulation tissue"], 0], ["A chronic leg ulcer failing to heal for years, in a patient with diabetes and low protein intake, most likely reflects a combination of:", ["Only a single systemic factor (diabetes) with no local contribution", "Local factors (poor blood supply, possible infection) plus systemic factors (uncontrolled diabetes, malnutrition)", "Purely genetic factors unrelated to blood supply or nutrition", "Excess granulation tissue as the sole cause"], 1], ["Chronic granulomatous inflammation is best conceptualized as:", ["A completely separate disease process unrelated to chronic inflammation", "A specialized subtype of chronic inflammation that retains the general triad (mononuclear infiltration, destruction, fibrosis) plus a distinctive Type IV, T-cell driven epithelioid-macrophage aggregation", "Identical in every respect to acute inflammation", "A process that never involves macrophages"], 1], ["Skin wound healing is called a 'classical example of combination of regeneration and repair' because:", ["Only the epidermis is involved, with no dermal component", "The epidermis regenerates via basal epithelial cell proliferation while the dermal defect is simultaneously repaired by fibrous scar tissue", "Only repair occurs, with no regeneration ever taking place", "Regeneration and repair occur at completely different times, never together"], 1]]
+};
+
+let quizLevel = 'easy';
+let quizRaw = quizRawByLevel[quizLevel];
+let quizState = [];
+function buildQuiz(){
+  quizState = quizRaw.map(([q,opts,correctIdx])=>{
+    const optionObjs = opts.map((text,i)=>({text, isCorrect:i===correctIdx}));
+    for(let i=optionObjs.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [optionObjs[i],optionObjs[j]]=[optionObjs[j],optionObjs[i]];
+    }
+    return {q, options:optionObjs, answered:false};
+  });
+  renderQuiz();
+}
+let score = 0, answeredCount = 0;
+function updateScore(){
+  document.getElementById('quizScore').textContent = `Score: ${score} / ${answeredCount}`;
+}
+function renderQuiz(){
+  score = 0; answeredCount = 0; updateScore();
+  const list = document.getElementById('quizList');
+  list.innerHTML = '';
+  quizState.forEach((item, qi)=>{
+    const card = document.createElement('div');
+    card.className='q-card';
+    const optsHtml = item.options.map((o,oi)=>`<button class="q-opt" data-qi="${qi}" data-oi="${oi}">${o.text}</button>`).join('');
+    card.innerHTML = `
+      <div class="q-head"><span class="q-num">Q${qi+1}</span><span class="q-text">${item.q}</span></div>
+      <div class="q-options">${optsHtml}</div>`;
+    list.appendChild(card);
+  });
+  list.querySelectorAll('.q-opt').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const qi = +btn.dataset.qi, oi = +btn.dataset.oi;
+      const item = quizState[qi];
+      if(item.answered) return;
+      item.answered = true;
+      answeredCount++;
+      const allBtns = btn.closest('.q-options').querySelectorAll('.q-opt');
+      allBtns.forEach((b,i)=>{
+        b.disabled = true;
+        if(item.options[i].isCorrect) b.classList.add('correct');
+      });
+      if(item.options[oi].isCorrect){ score++; }
+      else { btn.classList.add('wrong'); }
+      updateScore();
+    });
+  });
+}
+buildQuiz();
+document.getElementById('reshuffleQuiz').addEventListener('click', buildQuiz);
+document.getElementById('quizLevelTabs').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button[data-level]');
+  if(!btn) return;
+  quizLevel = btn.dataset.level;
+  quizRaw = quizRawByLevel[quizLevel];
+  document.querySelectorAll('#quizLevelTabs button').forEach(b=>b.classList.toggle('active', b===btn));
+  buildQuiz();
+});
+</script>
+</body>
+</html>
